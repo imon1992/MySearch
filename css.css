@@ -1,0 +1,83 @@
+/* vBulletin 3 CSS For Style 'РљРѕР»РѕРЅРєР° (С„РёРєСЃРёСЂРѕРІР°РЅРЅР°СЏ С€РёСЂРёРЅР°)' (styleid: 3) */
+body
+{
+    background: #004B52;
+    color: #000000;
+    font: 10pt verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+    margin: 0; padding: 0;
+}
+
+#search {
+    padding-top: 10%;
+    /*align: center;*/
+}
+#addFieldToSearch{
+    display: block;
+}
+.vbmenu_control
+{
+    color: #2E5B82;
+    font: bold 11px tahoma, verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+    padding: 3px 6px 3px 6px; white-space: nowrap; border-left: solid 1px #FFF; border-top: solid 1px #FFF; border-right: solid 1px #CCC; border-bottom: solid 1px #CCC;
+}
+.vbmenu_control a:link, .vbmenu_control_alink
+{
+    color: #2E5B82;
+    text-decoration: none;
+}
+
+
+
+#maintable {
+    background-color: #FFFFFF;
+    border-left: solid 1px #333333;
+    border-right: solid 1px #333333;
+}
+
+.maintable-content {
+    padding: 0 10px;
+}
+
+
+
+
+/* ***** navbar ***** */
+.navbar-row {
+    padding: 0;
+}
+.navbar-row-table {
+    border: solid 1px #E0E0E0;
+    color: #909090;
+}
+.navbar-row-table td, .navbar-row-table td.vbmenu_control {
+    /*background: url(../../images/ca_serenity/misc/bg_nav.gif) top left repeat-x;*/
+    padding: 4px 10px;
+    border-width: 0;
+    font-weight: normal;
+    font-size: 12px;
+}
+
+.navbar-row-table td.vbmenu_control a {
+    font-weight:bold;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
