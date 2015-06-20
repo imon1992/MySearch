@@ -1,9 +1,10 @@
 <?php
 
-//возвращяет массив вида array(1=>array('company'=>,'id_vacancies'));
-class ParserIdAndCompanyFromLinks_dou {
+class ParserIdAndCompanyFromLinks_dou
+{
 
-    function processingReferences($linksToJobsArray) {
+    function processingReferences($linksToJobsArray)
+    {
         if (!empty($linksToJobsArray)) {
             $linksToJobsLength = sizeof($linksToJobsArray);
             for ($i = 0; $i < $linksToJobsLength; $i++) {
@@ -26,7 +27,3 @@ class ParserIdAndCompanyFromLinks_dou {
     }
 
 }
-//$c = new ParserIdAndCompanyFromLinks();
-//$x = $c->processingReferences(array('http://jobs.dou.ua/companies/templatemonster/vacancies/17657/'));
-//echo '<pre>';
-//print_r($x);

@@ -1,8 +1,9 @@
 <?php
-//namespace stackoverflow;
 
-class ParserIdFromLinks_stackoverflow{
-    public function processingReferences($linksToJobsArray){
+class ParserIdFromLinks_stackoverflow
+{
+    public function processingReferences($linksToJobsArray)
+    {
         if (!empty($linksToJobsArray)) {
             $linksToJobsLength = sizeof($linksToJobsArray);
             for ($i = 0; $i < $linksToJobsLength; $i++) {

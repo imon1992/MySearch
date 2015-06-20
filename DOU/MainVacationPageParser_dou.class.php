@@ -3,9 +3,11 @@
 //класс возвращяет ссылки с вакансиями
 //include_once '../simpl/simple_html_dom.php';
 
-class MainVacationPageParser_dou {
+class MainVacationPageParser_dou
+{
 
-    function parseFirstPart($url) {
+    function parseFirstPart($url)
+    {
         if ($curl = curl_init()) {
             curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -19,22 +21,16 @@ class MainVacationPageParser_dou {
         return $linksToJobs;
     }
 
-    function parseNextPart($searchTagAndCity) {
+    function parseNextPart($searchTagAndCity)
+    {
         $searchTag = $searchTagAndCity[0];
         $city = $searchTagAndCity[1];
-        if($city === false) {
+        if ($city === false) {
             $url = 'http://jobs.dou.ua/vacancies/?search=' . $searchTag;
-        }else{$url ='http://jobs.dou.ua/vacancies/?city=' . $city . '&search=' . $searchTag;  }
-//        $position = stripos($url, '=');
-//        $lengthURL = strlen($url);
-//        $languageName = substr($url, $position + 1, $lengthURL);
-//        $beginningCityPosition = stripos($url, 'city=');
-//        if ($beginningCityPosition !== false) {
-//            $newLine = substr($url, $beginningCityPosition + 5, $lengthURL); //cтрока типа "город&search=язык"
-//            $searchPosition = stripos($newLine, '&search');
-//            $lengthNewLine = strlen($newLine);
-//            $cityName = substr($newLine, -$lengthNewLine, $searchPosition);  //строка типа "Город"
-//        }
+        } else {
+            $url = 'http://jobs.dou.ua/vacancies/?city=' . $city . '&search=' . $searchTag;
+        }
+
         $html = file_get_html($url);
         foreach ($html->find('div.b-vacancies-head h1') as $element) {
             $arrayReferencesVacancies[] = $element->innertext;
@@ -47,21 +43,15 @@ class MainVacationPageParser_dou {
             $numberOfIterations = ceil(($numberOfVacancies - 20) / 40);
         }
 
-        //$numberOfIterations количество итераций в цыкле на запрос
         $firstPartJobs = $this->parseFirstPart($url);
         foreach ($firstPartJobs[0] as $element) {
             $firstArray[] = $element;
         }
 
-        for ($nextVacancies = 20; $nextVacancies <= ($numberOfIterations * 40) + 20; $nextVacancies+=40) {
+        for ($nextVacancies = 20; $nextVacancies <= ($numberOfIterations * 40) + 20; $nextVacancies += 40) {
 
             $curl = curl_init();
-//            if ($beginningCityPosition !== false) {
-//                curl_setopt($curl, CURLOPT_URL, "http://jobs.dou.ua/vacancies/xhr-load/?city=$cityName&search=$languageName");
-                curl_setopt($curl, CURLOPT_URL, $url);
-//            } else {
-//                curl_setopt($curl, CURLOPT_URL, "http://jobs.dou.ua/vacancies/xhr-load/?search=$languageName");
-//            }
+            curl_setopt($curl, CURLOPT_URL, $url);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
             curl_setopt($curl, CURLOPT_POST, true);
             curl_setopt($curl, CURLOPT_POSTFIELDS, "count=$nextVacancies&csrfmiddlewaretoken=sTZxFTpI7xU7TtxB4lVfNUTQcT55BFPm");
@@ -83,7 +73,3 @@ class MainVacationPageParser_dou {
     }
 
 }
-//$c = new MainVacantionPageParser();
-//$x =$c->parseNextPart('http://jobs.dou.ua/vacancies/?city=%D0%9D%D0%B8%D0%BA%D0%BE%D0%BB%D0%B0%D0%B5%D0%B2&search=PHP');
-//echo '<pre>';
-//print_r($x);

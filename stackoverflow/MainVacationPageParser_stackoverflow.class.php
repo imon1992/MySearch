@@ -1,5 +1,4 @@
 <?php
-//namespace stackoverflow;
 include_once '../simpl/simple_html_dom.php';
 
 class MainVacationPageParser_stackoverflow
@@ -25,7 +24,6 @@ class MainVacationPageParser_stackoverflow
                 } else {
                     $fullLinksToJobs['endOfCycle'] = false;
                     break 2;
-//                    return false;
                 }
             }
         }
@@ -39,7 +37,6 @@ class MainVacationPageParser_stackoverflow
 
     public function allLinks($searchTag)
     {
-//        echo date('Y h:i:s A');
         $url = 'http://careers.stackoverflow.com/jobs?searchTerm=' . $searchTag;
         $html = file_get_html($url);
         foreach ($html->find('#index-hed h2 span') as $element) {
@@ -59,39 +56,8 @@ class MainVacationPageParser_stackoverflow
             if ($linksToJob['endOfCycle'] === false)
                 break;
         }
-//        echo date('Y h:i:s A');
+
         return $allLinksToJob;
 
     }
 }
-
-//$c = new MainVacationPageParser();
-//$a = $c->allLinks( 'symfony2');
-//////echo '<pre>';
-//////print_r($a);
-////$a = $c->linksParse('http://careers.stackoverflow.com/jobs?searchTerm=php&pg=2', 'php');
-//echo '<pre>';
-//print_r($a);
-//
-//include_once "ParserIdFromLinks.stackoverflow.class.php";
-//$d = new ParserIdFromLinks();
-//$s = $d->processingReferences($a);
-//
-////echo '<pre>';
-////print_r($s);
-////
-//include_once "CacheGetter_stackoverflow.class.php";
-//$h = new CacheGetter();
-//$t = $h->formationMapWithText($s);
-////
-////echo '<pre>';
-////print_r($t);
-//
-//include_once 'ProcessingDataArrayWithText_stackoverflow.class.php';
-//
-//$y = new ProcessingDataArrayWithText();
-//$k = $y->takeTheMissingText($t);
-//
-//
-//echo '<pre>';
-//print_r($k);
