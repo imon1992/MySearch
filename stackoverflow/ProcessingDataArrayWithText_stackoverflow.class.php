@@ -1,6 +1,6 @@
 <?php
 include_once '../BD/WorkWithDB.stackoverflow.class.php';
-include_once '../simpl/simple_html_dom.php';
+//include_once '../simpl/simple_html_dom.php';
 
 class ProcessingDataArrayWithText_stackoverflow
 {

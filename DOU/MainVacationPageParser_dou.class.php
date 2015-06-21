@@ -2,22 +2,15 @@
 
 //класс возвращяет ссылки с вакансиями
 //include_once '../simpl/simple_html_dom.php';
-
+include_once '../Common.class.php';
 class MainVacationPageParser_dou
 {
 
     function parseFirstPart($url)
     {
-        if ($curl = curl_init()) {
-            curl_setopt($curl, CURLOPT_URL, $url);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl, CURLOPT_POST, true);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, "count=0&csrfmiddlewaretoken=sTZxFTpI7xU7TtxB4lVfNUTQcT55BFPm");
-            curl_setopt($curl, CURLOPT_COOKIE, "__gads=ID=16e61c63986cc981:T=1412706042:S=ALNI_MaOyUGB7e9rZQHHjEP_YdImdbAfyA; __utmt=1; csrftoken=sTZxFTpI7xU7TtxB4lVfNUTQcT55BFPm; __utma=15214883.1329840483.1412706043.1425585907.1425592692.26; __utmb=15214883.18.10.1425592692; __utmc=15214883; __utmz=15214883.1425376018.14.2.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided);");
-            $out = curl_exec($curl);
-            curl_close($curl);
-            preg_match_all("/http\:\/\/jobs\.dou\.ua\/companies\/([\w-]+)\/vacancies\/\d+\//", $out, $linksToJobs);
-        }
+        $common = new Common();
+        $curlResult = $common->curlInit($url);
+        preg_match_all("/http\:\/\/jobs\.dou\.ua\/companies\/([\w-]+)\/vacancies\/\d+\//", $curlResult, $linksToJobs);
         return $linksToJobs;
     }
 
@@ -26,9 +19,19 @@ class MainVacationPageParser_dou
         $searchTag = $searchTagAndCity[0];
         $city = $searchTagAndCity[1];
         if ($city === false) {
-            $url = 'http://jobs.dou.ua/vacancies/?search=' . $searchTag;
+            if ($searchTag != 'beginners') {
+                $url = 'http://jobs.dou.ua/vacancies/?search=' . $searchTag;
+            } else {
+                $url = 'http://jobs.dou.ua/vacancies/?beginners';
+            }
         } else {
-            $url = 'http://jobs.dou.ua/vacancies/?city=' . $city . '&search=' . $searchTag;
+            if ($city == 'удаленная работа') {
+                $url = 'http://jobs.dou.ua/vacancies/?remote&search=' . $searchTag;
+            } else if ($city == 'работа за рубежом') {
+                $url = 'http://jobs.dou.ua/vacancies/?relocation&search=' . $searchTag;
+            } else {
+                $url = 'http://jobs.dou.ua/vacancies/?city=' . $city . '&search=' . $searchTag;
+            }
         }
 
         $html = file_get_html($url);
@@ -50,15 +53,9 @@ class MainVacationPageParser_dou
 
         for ($nextVacancies = 20; $nextVacancies <= ($numberOfIterations * 40) + 20; $nextVacancies += 40) {
 
-            $curl = curl_init();
-            curl_setopt($curl, CURLOPT_URL, $url);
-            curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-            curl_setopt($curl, CURLOPT_POST, true);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, "count=$nextVacancies&csrfmiddlewaretoken=sTZxFTpI7xU7TtxB4lVfNUTQcT55BFPm");
-            curl_setopt($curl, CURLOPT_COOKIE, "__gads=ID=16e61c63986cc981:T=1412706042:S=ALNI_MaOyUGB7e9rZQHHjEP_YdImdbAfyA; __utmt=1; csrftoken=sTZxFTpI7xU7TtxB4lVfNUTQcT55BFPm; __utma=15214883.1329840483.1412706043.1425585907.1425592692.26; __utmb=15214883.18.10.1425592692; __utmc=15214883; __utmz=15214883.1425376018.14.2.utmcsr=google|utmccn=(organic)|utmcmd=organic|utmctr=(not%20provided);");
-            $out = curl_exec($curl);
-            curl_close($curl);
-            preg_match_all("/http\:\/\/jobs\.dou\.ua\/companies\/([\w-]+)\/vacancies\/\d+\//", $out, $secondPartJobs);
+            $common = new Common();
+            $curlResult = $common->curlInit($url);
+            preg_match_all("/http\:\/\/jobs\.dou\.ua\/companies\/([\w-]+)\/vacancies\/\d+\//", $curlResult, $secondPartJobs);
             foreach ($secondPartJobs[0] as $element) {
                 $secondArray[] = $element;
             }

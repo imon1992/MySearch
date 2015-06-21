@@ -2,6 +2,14 @@ window.onload = function () {
 
     document.getElementById('addFieldToSearch').onclick = addFields;
     document.getElementById('sendDataToSearch').onclick = getAndSendSearchData;
+    document.getElementById('withCityOrNot').onchange = function() {
+        if(document.getElementById('city').style.display == 'none') {
+            document.getElementById('city').style.display = 'block';
+        }else{
+            document.getElementById('city').style.display = 'none'
+        }
+    }
+        document.getElementById('searchTag').onchange = addCity;
     function addFields() {
         var searchTable = document.getElementById('searchTable');
         var tr = document.createElement('tr');
@@ -44,12 +52,40 @@ window.onload = function () {
         td.appendChild(input);
     }
 
+    function addCity(){
+       var city = document.getElementById('city');
+        var searchTag = document.getElementById('searchTag').value;
+        console.log(searchTag);
+        function addOptionToSelect(data){
+            data = JSON.parse(data);
+            for(var position in data){
+                console.log(data[position]['town'])
+                var option = document.createElement('option');
+                option.innerText=data[position]['town'];
+                option.setAttribute('value',data[position]['town'])
+                //var searchTown = document.getElementById('city')
+                city.appendChild(option);
+            }
+        }
+        function consoleLogAjaxError(data){
+            data = JSON.parse(data);
+            console.log(data.response);
+            console.log(data);
+        }
+        if(document.getElementById('city').style.display == 'block') {
+            ajax('ajaxHandlers/searchQueryHandler.php?tag=' + searchTag,
+                addOptionToSelect,
+                true,
+                'GET')
+        }
+    }
     function getAndSendSearchData() {
+        //console.log(document.getElementById('withCityOrNot').checked);
         var searchArray = getSearch();
         var notPresentedArray = getNotPresented();
         var searchTag = document.getElementById('searchTag').value;
         var city = document.getElementById('city');
-        console.log(city);
+        //console.log(city);
         var searchLength = searchArray.length;
         var searchDataArray = new Array();
         if(city === null){
@@ -58,6 +94,10 @@ window.onload = function () {
         }else{
             city = city.value
             searchDataArray[0] = new Array(searchTag,city);
+        }
+        if(document.getElementById('withCityOrNot').checked == false){
+            searchDataArray[0][1]=false;
+            //console.log((searchDataArray));
         }
         for (i = 0; i < searchLength; i++) {
             searchDataArray[i+1] = {
@@ -130,6 +170,9 @@ window.onload = function () {
 
     function ajax(url, callback, type, method, params, header)
     {
+        if(params==undefined){
+            params='';
+        }
         var xmlHttp = getXmlHttpRequest();
         xmlHttp.onreadystatechange=function(){
             if (xmlHttp.readyState==4 && xmlHttp.status==200)
@@ -138,11 +181,11 @@ window.onload = function () {
         if(method=='POST') {
             xmlHttp.open(method, url, type);
             xmlHttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        }else{
-            url += '?'+ params;
+        }else {
+
             xmlHttp.open(method, url, type);
         }
-        if(params!='') {
+        if(params!=''&&params!=undefined) {
             xmlHttp.send(params);
         }else{
             xmlHttp.send(null);

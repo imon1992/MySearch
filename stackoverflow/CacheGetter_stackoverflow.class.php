@@ -1,15 +1,16 @@
 <?php
 
 include_once '../BD/WorkWithDB.stackoverflow.class.php';
+include_once '../Common.class.php';
 
 class CacheGetter_stackoverflow
 {
     function formationMapWithText($idAndLinksArray)
     {
 
-        foreach ($idAndLinksArray as $val) {
-            $arrayOfId[] = $val['id_vacancies'];
-        }
+        $common = new Common();
+        $arrayOfId=$common->getAllIdOfVacancies($idAndLinksArray);
+
         foreach ($idAndLinksArray as $id) {
 
             $vacancyMap[$id['id_vacancies']] = array('id_vacancies' => $id['id_vacancies'],

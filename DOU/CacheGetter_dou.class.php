@@ -1,13 +1,13 @@
 <?php
 include_once '../BD/WorkWithDB.DOU.class.php';
-
+include_once '../Common.class.php';
 class CacheGetter_dou {
     function formationMapWithText($idAndCompanyArray) {
-        foreach ($idAndCompanyArray as $val) {
-            $arrayOfId[] = $val['id_vacancies'];
-        }
+
+        $common = new Common();
+        $arrayOfId=$common->getAllIdOfVacancies($idAndCompanyArray);
         foreach ($idAndCompanyArray as $key => $idAndCompany) {
-            $vacancyMap[$idAndCompany[id_vacancies]] = array('id_vacancies' => $idAndCompany['id_vacancies'],
+            $vacancyMap[$idAndCompany['id_vacancies']] = array('id_vacancies' => $idAndCompany['id_vacancies'],
                 'company' => $idAndCompanyArray [$key]['company'],
                 'text' => null);
         }
