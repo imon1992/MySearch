@@ -18,6 +18,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['searchData'])) {
     if ($whereAndWhatSearchArrayLength == 1) {
         $searchTag = $whereAndWhatSearchArray[0];
         $searchQuery = new SearchQuery_stakoverflow();
+        $searchTag = str_replace(' ','%20',$searchTag);
+        $searchTag = $tag = str_replace('+','%2B',$searchTag);
+        $searchTag = $tag = str_replace('#','%23',$searchTag);
         $searchResponse = $searchQuery->search($searchTag, $searchParams);
         $searchResponse = json_encode($searchResponse);
         echo $searchResponse;
