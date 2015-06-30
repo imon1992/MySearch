@@ -1,11 +1,11 @@
 <?php
-include_once '../BD/WorkWithDB.DOU.class.php';
-include_once '../Common.class.php';
-class CacheGetter_dou {
-    function formationMapWithText($idAndCompanyArray) {
+require_once '../abstractClass/CacheGetter.php';
 
-        $common = new Common();
-        $arrayOfId=$common->getAllIdOfVacancies($idAndCompanyArray);
+class CacheGetter_dou extends CacheGetter
+{
+    protected function formationMapWithText($idAndCompanyArray)
+    {
+        $arrayOfId = parent::getAllIdOfVacancies($idAndCompanyArray);
         foreach ($idAndCompanyArray as $key => $idAndCompany) {
             $vacancyMap[$idAndCompany['id_vacancies']] = array('id_vacancies' => $idAndCompany['id_vacancies'],
                 'company' => $idAndCompanyArray [$key]['company'],
@@ -31,5 +31,4 @@ class CacheGetter_dou {
         }
         return $vacancyIdAndCompanyAndTextMap;
     }
-
 }

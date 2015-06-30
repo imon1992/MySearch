@@ -1,12 +1,14 @@
 <?php
-//include_once '../simpl/simple_html_dom.php';
-include_once '../Common.class.php';
-class MainVacationPageParser_stackoverflow
+
+include_once '../abstractClass/MainVacationPageParser.php';
+include_once 'CurlInit_stackoverflow.php';
+
+class MainVacationPageParser_stackoverflow extends MainVacationPageParser
 {
-    function linksParse($url, $tag)
+    private function linksParse($url, $tag)
     {
-        $common = new Common();
-        $curlResult = $common->curlInit($url);
+        $curlInit = new CurlInit_stackoverflow();
+        $curlResult = $curlInit->getCurlInit($url);
         $html = new simple_html_dom();
         $html->load($curlResult);
         $fullLinksToJobs = array('linksToJob' => array(), 'endOfCycle' => 'true');
@@ -28,7 +30,7 @@ class MainVacationPageParser_stackoverflow
         return $fullLinksToJobs;
     }
 
-    public function allLinks($searchTag)
+    protected function generateAllLinks($searchTag)
     {
         $url = 'http://careers.stackoverflow.com/jobs?searchTerm=' . $searchTag;
         $html = file_get_html($url);

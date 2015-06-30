@@ -1,9 +1,10 @@
 <?php
 
-class ParserIdAndCompanyFromLinks_dou
-{
+include_once '../abstractClass/ParseDataFromLinks.php';
 
-    function processingReferences($linksToJobsArray)
+class ParseDataFromLinks_dou extends ParseDataFromLinks
+{
+    protected function processingReferences($linksToJobsArray)
     {
         if (!empty($linksToJobsArray)) {
             $linksToJobsLength = sizeof($linksToJobsArray);
@@ -25,5 +26,4 @@ class ParserIdAndCompanyFromLinks_dou
         }
         return $data;
     }
-
 }

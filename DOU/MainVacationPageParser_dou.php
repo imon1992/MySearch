@@ -1,20 +1,21 @@
 <?php
 
-//класс возвращяет ссылки с вакансиями
-//include_once '../simpl/simple_html_dom.php';
-include_once '../Common.class.php';
-class MainVacationPageParser_dou
+include_once 'CurlInit_Dou.php';
+include_once '../abstractClass/MainVacationPageParser.php';
+
+class MainVacationPageParser_dou extends MainVacationPageParser
 {
 
-    function parseFirstPart($url)
+    private function parseFirstPart($url)
     {
-        $common = new Common();
-        $curlResult = $common->curlInit($url);
+        $curlInit = new CurlInit_Dou();
+        $curlResult = $curlInit->getCurlInit($url);
         preg_match_all("/http\:\/\/jobs\.dou\.ua\/companies\/([\w-]+)\/vacancies\/\d+\//", $curlResult, $linksToJobs);
+
         return $linksToJobs;
     }
 
-    function parseNextPart($searchTagAndCity)
+    protected function generateAllLinks($searchTagAndCity)
     {
         $searchTag = $searchTagAndCity[0];
         $city = $searchTagAndCity[1];
@@ -50,11 +51,15 @@ class MainVacationPageParser_dou
         foreach ($firstPartJobs[0] as $element) {
             $firstArray[] = $element;
         }
+        if ($city != false) {
+            $url = "http://jobs.dou.ua/vacancies/xhr-load/?city=$city&search=$searchTag";
+        } else {
+            $url = "http://jobs.dou.ua/vacancies/xhr-load/?search=$searchTag";
+        }
+        $curlInit = new CurlInit_Dou();
 
-        for ($nextVacancies = 20; $nextVacancies <= ($numberOfIterations * 40) + 20; $nextVacancies += 40) {
-
-            $common = new Common();
-            $curlResult = $common->curlInit($url);
+        for ($nextNumberOfVacation = 20; $nextNumberOfVacation <= ($numberOfIterations * 40) + 20; $nextNumberOfVacation += 40) {
+            $curlResult = $curlInit->getCurlInit($url, $nextNumberOfVacation);
             preg_match_all("/http\:\/\/jobs\.dou\.ua\/companies\/([\w-]+)\/vacancies\/\d+\//", $curlResult, $secondPartJobs);
             foreach ($secondPartJobs[0] as $element) {
                 $secondArray[] = $element;

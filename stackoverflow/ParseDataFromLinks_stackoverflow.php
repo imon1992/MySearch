@@ -1,8 +1,9 @@
 <?php
+include_once '../abstractClass/ParseDataFromLinks.php';
 
-class ParserIdFromLinks_stackoverflow
+class ParseDataFromLinks_stackoverflow extends ParseDataFromLinks
 {
-    public function processingReferences($linksToJobsArray)
+    protected function processingReferences($linksToJobsArray)
     {
         if (!empty($linksToJobsArray)) {
             $linksToJobsLength = sizeof($linksToJobsArray);

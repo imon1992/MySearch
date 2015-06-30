@@ -1,10 +1,10 @@
 <?php
+
+include_once '../abstractClass/ProcessingDataArrayWithText.php';
 include_once '../BD/WorkWithDB.DOU.class.php';
 
-class ProcessingDataArrayWithText_dou
+class ProcessingDataArrayWithText_dou extends ProcessingDataArrayWithText
 {
-
-
     function takeTheMissingText($idAndCompaniesAndMayNotBeCompleteTextArray)
     {
 

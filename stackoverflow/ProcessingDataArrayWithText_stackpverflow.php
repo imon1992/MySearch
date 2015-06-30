@@ -1,13 +1,11 @@
 <?php
-include_once '../BD/WorkWithDB.stackoverflow.class.php';
-//include_once '../simpl/simple_html_dom.php';
+include_once '../BD/WOrkWithDB.stackoverflow.class.php';
+include_once '../abstractClass/ProcessingDataArrayWithText.php';
 
-class ProcessingDataArrayWithText_stackoverflow
+class ProcessingDataArrayWithText_stackoverflow extends ProcessingDataArrayWithText
 {
-
-    function takeTheMissingText($idAndLinksAndMayNotBeCompleteTextArray)
+    protected function takeTheMissingText($idAndLinksAndMayNotBeCompleteTextArray)
     {
-
         $db = WorkWithDB1::getInstance();
         foreach ($idAndLinksAndMayNotBeCompleteTextArray as $vacancyId => $idAndTextAndLinksMap) {
             if ($idAndTextAndLinksMap['text'] == null) {

@@ -1,7 +1,9 @@
 <?php
-require_once '../DOU/SearchQuery_dou.class.php';
-require_once '../stackoverflow/SearchQuery_stackoverflow.class.php';
-include_once '../BD/WorkWithDB.DOU.class.php';
+//require_once '../DOU/SearchQuery_dou.class.php';
+//require_once '../stackoverflow/SearchQuery_stackoverflow.class.php';
+require_once '../BD/WorkWithDB.DOU.class.php';
+require_once '../DOU/SearchQuery_dou.php';
+require_once '../stackoverflow/SearchQuery_stackoverflow.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['searchData'])) {
 
     $json = $_POST['searchData'];
@@ -10,18 +12,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['searchData'])) {
     $whereAndWhatSearchArrayLength = sizeof($whereAndWhatSearchArray);
     if ($whereAndWhatSearchArrayLength == 2) {
 //
-        $searchQuery = new searchQuery_dou();
-        $searchResponse = $searchQuery->search($whereAndWhatSearchArray, $searchParams);
+        $searchQuery = new SearchQuery_dou();
+        $searchResponse = $searchQuery->getSearch($whereAndWhatSearchArray, $searchParams);
         $searchResponse = json_encode($searchResponse);
         echo $searchResponse;
     }
     if ($whereAndWhatSearchArrayLength == 1) {
         $searchTag = $whereAndWhatSearchArray[0];
-        $searchQuery = new SearchQuery_stakoverflow();
         $searchTag = str_replace(' ','%20',$searchTag);
         $searchTag = $tag = str_replace('+','%2B',$searchTag);
         $searchTag = $tag = str_replace('#','%23',$searchTag);
-        $searchResponse = $searchQuery->search($searchTag, $searchParams);
+        $searchQuery = new SearchQuery_stackoverflow();
+        $searchResponse = $searchQuery->getSearch($searchTag, $searchParams);
         $searchResponse = json_encode($searchResponse);
         echo $searchResponse;
     }

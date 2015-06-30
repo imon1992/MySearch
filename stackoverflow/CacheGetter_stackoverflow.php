@@ -1,16 +1,11 @@
 <?php
+require_once '../abstractClass/CacheGetter.php';
 
-include_once '../BD/WorkWithDB.stackoverflow.class.php';
-include_once '../Common.class.php';
-
-class CacheGetter_stackoverflow
+class CacheGetter_stackoverflow extends CacheGetter
 {
-    function formationMapWithText($idAndLinksArray)
+    protected function formationMapWithText($idAndLinksArray)
     {
-
-        $common = new Common();
-        $arrayOfId=$common->getAllIdOfVacancies($idAndLinksArray);
-
+        $arrayOfId = parent::getAllIdOfVacancies($idAndLinksArray);
         foreach ($idAndLinksArray as $id) {
 
             $vacancyMap[$id['id_vacancies']] = array('id_vacancies' => $id['id_vacancies'],
@@ -36,5 +31,4 @@ class CacheGetter_stackoverflow
         }
         return $vacancyIdAndTextMap;
     }
-
 }
