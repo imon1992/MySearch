@@ -38,12 +38,9 @@ header("Content-Type: text/html; charset=utf-8");
 
                                                 <td width="100%">&nbsp;</td>
 
-                                                <td class="vbmenu_control"><a rel="nofollow"
-                                                                              href="http://localhost/Search/index.php?dou"
-                                                        >Поиск на DOU</a></td>
+                                                <td class="vbmenu_control"><a href="http://localhost/Search/index1.php?dou">Поиск на DOU</a></td>
 
-                                                <td id="navbar_search" class="vbmenu_control"><a
-                                                        href="http://localhost/Search/index.php?stackoverflow" rel="nofollow">Поиск на stackoverflow</a>
+                                                <td id="navbar_search" class="vbmenu_control"><a href="http://localhost/Search/index1.php?stackoverflow">Поиск на stackoverflow</a>
                                                 </td>
                                             <tr>
                                         </table>

@@ -3,15 +3,16 @@
 двум главным(на мой взгляд) сайтам где представлены вакансии. С его помощью вы можете узнать какие навыки встречаются чаще, 
 а какие реже.
 
+Важно: для запуска нужно создать БД,и запустить файл DOU/addCities/addCitiesToDb.php
 
 				Краткое описание классов
 1)MainVacationPageParser собирает все ссылки(на вакансии) по данному запросу.
-2)ParseIdAndCompanyFromLinks(для dou) проодит по всем ссылкам(на вакансии) и возвращяет массив вида 
+2)ParseIdAndCompanyFromLinks(для dou) проходит по всем ссылкам(на вакансии) и возвращяет массив вида 
 array(1=>
 ['company'=>'company name',
 'id_vacancies'=>'id']
 )
-3)ParseIdFromLinks(для stackoverflow)проодит по всем ссылкам(на вакансии) и возвращяет массив вида 
+3)ParseIdFromLinks(для stackoverflow)проходит по всем ссылкам(на вакансии) и возвращяет массив вида 
 array(1=>
 ['linksToJob'=>'link',
 'id_vacancies'=>'id']

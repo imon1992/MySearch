@@ -2,14 +2,19 @@ window.onload = function () {
 
     document.getElementById('addFieldToSearch').onclick = addFields;
     document.getElementById('sendDataToSearch').onclick = getAndSendSearchData;
-    document.getElementById('withCityOrNot').onchange = function() {
-        if(document.getElementById('city').style.display == 'none') {
-            document.getElementById('city').style.display = 'block';
-        }else{
-            document.getElementById('city').style.display = 'none'
+
+    if (document.getElementById('withCityOrNot') != null) {
+        document.getElementById('withCityOrNot').onchange = function () {
+            if (document.getElementById('city').style.display == 'none') {
+                document.getElementById('city').style.display = 'block';
+            } else {
+                document.getElementById('city').style.display = 'none'
+            }
         }
     }
+    if (document.getElementById('city') != null)
         document.getElementById('searchTag').onchange = addCity;
+
     function addFields() {
         var searchTable = document.getElementById('searchTable');
         var tr = document.createElement('tr');
@@ -52,33 +57,36 @@ window.onload = function () {
         td.appendChild(input);
     }
 
-    function addCity(){
-       var city = document.getElementById('city');
+    function addCity() {
+        var city = document.getElementById('city');
         var searchTag = document.getElementById('searchTag').value;
         console.log(searchTag);
-        function addOptionToSelect(data){
+        function addOptionToSelect(data) {
             data = JSON.parse(data);
-            for(var position in data){
+            for (var position in data) {
                 console.log(data[position]['town'])
                 var option = document.createElement('option');
-                option.innerText=data[position]['town'];
-                option.setAttribute('value',data[position]['town'])
+                option.innerText = data[position]['town'];
+                option.setAttribute('value', data[position]['town'])
                 //var searchTown = document.getElementById('city')
                 city.appendChild(option);
             }
         }
-        function consoleLogAjaxError(data){
+
+        function consoleLogAjaxError(data) {
             data = JSON.parse(data);
             console.log(data.response);
             console.log(data);
         }
-        if(document.getElementById('city').style.display == 'block') {
+
+        if (document.getElementById('city').style.display != 'none') {
             ajax('ajaxHandlers/searchQueryHandler.php?tag=' + searchTag,
                 addOptionToSelect,
                 true,
                 'GET')
         }
     }
+
     function getAndSendSearchData() {
         //console.log(document.getElementById('withCityOrNot').checked);
         var searchArray = getSearch();
@@ -88,119 +96,124 @@ window.onload = function () {
         //console.log(city);
         var searchLength = searchArray.length;
         var searchDataArray = new Array();
-        if(city === null){
+        if (city === null) {
 
             searchDataArray[0] = new Array(searchTag);
-        }else{
+        } else {
             city = city.value
-            searchDataArray[0] = new Array(searchTag,city);
+            searchDataArray[0] = new Array(searchTag, city);
         }
-        if(document.getElementById('withCityOrNot').checked == false){
-            searchDataArray[0][1]=false;
+        if (document.getElementById('withCityOrNot') != null) {
+
+        if (document.getElementById('withCityOrNot').checked == false) {
+            searchDataArray[0][1] = false;
             //console.log((searchDataArray));
         }
-        for (i = 0; i < searchLength; i++) {
-            searchDataArray[i+1] = {
-                "name": searchArray[i],
-                "search": new Array(),
-                "notPresented": new Array()
-            };
-            searchDataArray[i+1].search[0] = {"name": searchArray[i]};
-            var notPresentedLength = notPresentedArray[i].length;
-            searchDataArray[i+1].notPresented[0] = {};
-            for (j = 0; j < notPresentedLength; j++) {
-                var name = 'name' + j;
-                searchDataArray[i+1].notPresented[0][name] = notPresentedArray[i][j];
-            }
-        }
-
-        function showResult(data){
-            data = JSON.parse(data);
-            console.log(data)
-            for(var val in data){
-                //console.log(data[val]);
-                //console.log(val);
-                var div = document.getElementById('search');
-                //document.body.appendChild(div);
-                div.innerText = val +" : " + data[val];
-            }
-        }
-        function consoleLogAjaxError(data){
-            data = JSON.parse(data);
-            //console.log(data.response);
-            console.log(data);
-        }
-        var searchData = JSON.stringify(searchDataArray);
-        searchData = 'searchData='+searchData;
-        waitingForResponse();
-        console.log(searchData);
-        ajax('ajaxHandlers/searchQueryHandler.php',
-            showResult,
-            true,
-            'POST',searchData);
     }
 
-    function getSearch() {
-        var searchTableTbody = document.getElementById('searchTable').children[0];
-        var trCount = searchTableTbody.children.length;
-        var searchArray = new Array();
-        for (var i = 0; i < trCount; i++) {
-            if (i != 0) {
-                searchArray[i - 1] = searchTableTbody.children[i].children[0].children[0].value;
-            }
-        }
-        return searchArray;
-    }
-
-    function getNotPresented() {
-        var searchTableTbody = document.getElementById('searchTable').children[0];
-        var tbody = searchTableTbody.children;
-        var trCount = searchTableTbody.children.length;
-        var notPresentedArray = new Array();
-        for (i = 1; i < trCount; i++) {
-            notPresentedArray[i - 1] = new Array();
-            var tdInTrCount = tbody[i].children.length - 1;
-            for (j = 1; j < tdInTrCount; j++) {
-                var notPresented = tbody[i].children[j].children[0].value;
-                notPresentedArray[i - 1][j - 1] = notPresented;
-            }
-        }
-        return notPresentedArray;
-    }
-
-    function ajax(url, callback, type, method, params, header)
-    {
-        if(params==undefined){
-            params='';
-        }
-        var xmlHttp = getXmlHttpRequest();
-        xmlHttp.onreadystatechange=function(){
-            if (xmlHttp.readyState==4 && xmlHttp.status==200)
-                callback(xmlHttp.response);
-        }
-        if(method=='POST') {
-            xmlHttp.open(method, url, type);
-            xmlHttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
-        }else {
-
-            xmlHttp.open(method, url, type);
-        }
-        if(params!=''&&params!=undefined) {
-            xmlHttp.send(params);
-        }else{
-            xmlHttp.send(null);
+    for (i = 0; i < searchLength; i++) {
+        searchDataArray[i + 1] = {
+            "name": searchArray[i],
+            "search": new Array(),
+            "notPresented": new Array()
+        };
+        searchDataArray[i + 1].search[0] = {"name": searchArray[i]};
+        var notPresentedLength = notPresentedArray[i].length;
+        searchDataArray[i + 1].notPresented[0] = {};
+        for (j = 0; j < notPresentedLength; j++) {
+            var name = 'name' + j;
+            searchDataArray[i + 1].notPresented[0][name] = notPresentedArray[i][j];
         }
     }
 
-    function waitingForResponse(){
-        var body = document.getElementById('search');
-        var children = body.childNodes;
-
-        while(children.length) {
-            body.removeChild(children[0]);
+    function showResult(data) {
+        data = JSON.parse(data);
+        console.log(data)
+        for (var val in data) {
+            //console.log(data[val]);
+            //console.log(val);
+            var div = document.getElementById('search');
+            //document.body.appendChild(div);
+            div.innerText = val + " : " + data[val];
         }
-
-
     }
+
+    function consoleLogAjaxError(data) {
+        data = JSON.parse(data);
+        //console.log(data.response);
+        console.log(data);
+    }
+
+    var searchData = JSON.stringify(searchDataArray);
+    searchData = 'searchData=' + searchData;
+    waitingForResponse();
+    console.log(searchData);
+    ajax('ajaxHandlers/searchQueryHandler.php',
+        showResult,
+        true,
+        'POST', searchData);
+}
+
+function getSearch() {
+    var searchTableTbody = document.getElementById('searchTable').children[0];
+    var trCount = searchTableTbody.children.length;
+    var searchArray = new Array();
+    for (var i = 0; i < trCount; i++) {
+        if (i != 0) {
+            searchArray[i - 1] = searchTableTbody.children[i].children[0].children[0].value;
+        }
+    }
+    return searchArray;
+}
+
+function getNotPresented() {
+    var searchTableTbody = document.getElementById('searchTable').children[0];
+    var tbody = searchTableTbody.children;
+    var trCount = searchTableTbody.children.length;
+    var notPresentedArray = new Array();
+    for (i = 1; i < trCount; i++) {
+        notPresentedArray[i - 1] = new Array();
+        var tdInTrCount = tbody[i].children.length - 1;
+        for (j = 1; j < tdInTrCount; j++) {
+            var notPresented = tbody[i].children[j].children[0].value;
+            notPresentedArray[i - 1][j - 1] = notPresented;
+        }
+    }
+    return notPresentedArray;
+}
+
+function ajax(url, callback, type, method, params, header) {
+    if (params == undefined) {
+        params = '';
+    }
+    var xmlHttp = getXmlHttpRequest();
+    xmlHttp.onreadystatechange = function () {
+        if (xmlHttp.readyState == 4 && xmlHttp.status == 200)
+            callback(xmlHttp.response);
+    }
+    if (method == 'POST') {
+        xmlHttp.open(method, url, type);
+        xmlHttp.setRequestHeader('Content-type', 'application/x-www-form-urlencoded');
+    } else {
+
+        xmlHttp.open(method, url, type);
+    }
+    if (params != '' && params != undefined) {
+        xmlHttp.send(params);
+    } else {
+        xmlHttp.send(null);
+    }
+}
+
+function waitingForResponse() {
+    var body = document.getElementById('search');
+    var children = body.childNodes;
+
+    while (children.length) {
+        body.removeChild(children[0]);
+    }
+
+
+}
 
 }
