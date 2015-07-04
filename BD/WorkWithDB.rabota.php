@@ -46,15 +46,36 @@ class WorkWithDB2 {
 
         return $this->db2Arr($queryResult);
     }
-
-    function insertData($idVacancies, $text,$companyId) {
+    
+    function insertDataWithNowDate($idVacancies, $text,$companyId) {
         $stmt = $this->_db->db->prepare(
-            "INSERT INTO rabota_vacancy_info (id_vacancies,text_vacancies,id_company)
-                VALUES(:id_vacancies,:text_vacancies,:id_company)");
+            "INSERT INTO rabota_vacancy_info (id_vacancies,text_vacancies,id_company,date_add)
+                VALUES(:id_vacancies,:text_vacancies,:id_company,NOW())");
         $stmt->bindParam(':id_vacancies', $idVacancies);
         $stmt->bindParam(':text_vacancies', $text);
         $stmt->bindParam(':id_company', $companyId);
         $stmt->execute();
     }
+
+    function insertDataWithDate($idVacancies, $text,$companyId,$timeInterval,$daysOrWeeks) {
+            var_dump($daysOrWeeks);
+        var_dump($timeInterval);
+        $stmt = $this->_db->db->prepare(
+            "INSERT INTO rabota_vacancy_info (id_vacancies,text_vacancies,id_company,date_add)
+                VALUES(:id_vacancies,:text_vacancies,:id_company,DATE_ADD(NOW(), INTERVAL -".":daysOrWeeks"." $timeInterval))");
+        $stmt->bindParam(':id_vacancies', $idVacancies);
+        $stmt->bindParam(':text_vacancies', $text);
+        $stmt->bindParam(':id_company', $companyId);
+        $stmt->bindParam(':daysOrWeeks', $daysOrWeeks);
+//        $stmt->bindParam(':timeInterval', $timeInterval);
+        $stmt->execute();
+    }
+
+//    function insertDatenow(){
+//        $stmt = $this->_db->db->prepare(
+//            "INSERT INTO rabota_vacancy_info (id_vacancies,text_vacancies,id_company)
+//                VALUES(:id_vacancies,:text_vacancies,:id_company)");
+//        $stmt->execute();
+//    }
 
 }

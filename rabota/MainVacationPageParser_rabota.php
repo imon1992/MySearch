@@ -12,18 +12,23 @@ class MainVacationPageParser_rabota extends MainVacationPageParser
 
         $html = new simple_html_dom();
         $html->load($curlResult);
-        $fullLinksToJobs = array('linksToJob' => array());
+        $fullLinksToJobs = array();
         foreach ($html->find('table.vv tbody ') as $element) {
             foreach($element->find('div[class=rua-g-clearfix] a.t')as $link) {
                 $partLinksToJob[] =  $link->href;
             }
+            foreach($html->find('div.dt') as $element){
+                $dateAdd[] = $element.innertext;
+            }
         }
 
         if ($partLinksToJob != null && is_array($partLinksToJob)) {
-            foreach ($partLinksToJob as $linksPart) {
-                $fullLinksToJobs['linksToJob'][] = 'http://rabota.ua/' . $linksPart;
+            foreach ($partLinksToJob as $key=>$linksPart) {
+
+                $fullLinksToJobs[] = array('linkToJob'=>'http://rabota.ua/' . $linksPart,'dateAdd'=>$dateAdd[$key]);
             }
         }
+        var_dump($fullLinksToJobs);
         return $fullLinksToJobs;
     }
 
@@ -51,7 +56,7 @@ class MainVacationPageParser_rabota extends MainVacationPageParser
             }
             $linksToJob = $this->linksParse($urlWithPageNumber);
             if ($linksToJob != null && is_array($linksToJob))
-                $allLinksToJob = array_merge((array)$allLinksToJob, $linksToJob['linksToJob']);
+                $allLinksToJob = array_merge((array)$allLinksToJob, $linksToJob);
             if ($linksToJob['endOfCycle'] === false)
                 break;
         }
@@ -59,3 +64,8 @@ class MainVacationPageParser_rabota extends MainVacationPageParser
 
     }
 }
+
+$c = new MainVacationPageParser_rabota();
+$x = $c->generateAllLinks('ruby');
+echo '<pre>';
+print_r($x);
