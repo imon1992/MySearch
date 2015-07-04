@@ -1,5 +1,6 @@
 <?php
 require_once '../abstractClass/CacheGetter.php';
+include_once '../BD/WorkWithDB.DOU.class.php';
 
 class CacheGetter_dou extends CacheGetter
 {

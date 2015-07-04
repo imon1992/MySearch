@@ -1,16 +1,17 @@
 <?php
 
-abstract class SearchQuery{
+abstract class SearchQuery
+{
     abstract protected function search($searchTagAndCity, $searchObject);
 
-public function getSearch($searchTagAndCity, $searchObject){
-    return $this->search($searchTagAndCity, $searchObject);
-}
+    public function getSearch($searchTagAndCity, $searchObject)
+    {
+        return $this->search($searchTagAndCity, $searchObject);
+    }
 
     protected function findKeyWords($fullMapArray, $searchObject)
     {
         foreach ($fullMapArray as $idAndCompanyAndText) {
-
             foreach ($searchObject as $searchStringObject) {
                 if ($searchStringObject->search !== null) {
                     $isAllKeysPresented = $this->isKeyPresent($searchStringObject->search, $idAndCompanyAndText['text']);
@@ -25,6 +26,7 @@ public function getSearch($searchTagAndCity, $searchObject){
                 }
             }
         }
+        array_shift($searchObject);
         return $this->putZeroIfKeyNotPresent($searchResultMap, $searchObject);
     }
 
@@ -57,7 +59,6 @@ public function getSearch($searchTagAndCity, $searchObject){
             }
         }
         return $searchResultMap;
-
     }
 
 }

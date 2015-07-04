@@ -17,8 +17,8 @@ class MainVacationPageParser_dou extends MainVacationPageParser
 
     protected function generateAllLinks($searchTagAndCity)
     {
-        $searchTag = $searchTagAndCity[0];
-        $city = $searchTagAndCity[1];
+        $searchTag = parent::changSumSymbols($searchTagAndCity->searchTag);
+        $city = $searchTagAndCity->city;
         if ($city === false) {
             if ($searchTag != 'beginners') {
                 $url = 'http://jobs.dou.ua/vacancies/?search=' . $searchTag;

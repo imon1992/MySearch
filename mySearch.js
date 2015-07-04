@@ -93,15 +93,17 @@ window.onload = function () {
         var notPresentedArray = getNotPresented();
         var searchTag = document.getElementById('searchTag').value;
         var city = document.getElementById('city');
+        var site = window.location.search;
         //console.log(city);
         var searchLength = searchArray.length;
         var searchDataArray = new Array();
         if (city === null) {
 
-            searchDataArray[0] = new Array(searchTag);
+            //searchDataArray[0] = new Array(searchTag);
+            searchDataArray[0] = {'searchTag':searchTag,'site':site};
         } else {
-            city = city.value
-            searchDataArray[0] = new Array(searchTag, city);
+            city = city.value;
+            searchDataArray[0] = {'searchTag':searchTag,'site':site,'city':city};
         }
         if (document.getElementById('withCityOrNot') != null) {
 
@@ -133,8 +135,10 @@ window.onload = function () {
             //console.log(data[val]);
             //console.log(val);
             var div = document.getElementById('search');
+            var p = document.createElement('p');
+            div.appendChild(p);
             //document.body.appendChild(div);
-            div.innerText = val + " : " + data[val];
+            p.innerText = val + " : " + data[val];
         }
     }
 
@@ -148,6 +152,7 @@ window.onload = function () {
     searchData = 'searchData=' + searchData;
     waitingForResponse();
     console.log(searchData);
+
     ajax('ajaxHandlers/searchQueryHandler.php',
         showResult,
         true,

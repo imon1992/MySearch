@@ -32,6 +32,7 @@ class MainVacationPageParser_stackoverflow extends MainVacationPageParser
 
     protected function generateAllLinks($searchTag)
     {
+        $searchTag = parent::changSumSymbols($searchTag);
         $url = 'http://careers.stackoverflow.com/jobs?searchTerm=' . $searchTag;
         $html = file_get_html($url);
         foreach ($html->find('#index-hed h2 span') as $element) {
