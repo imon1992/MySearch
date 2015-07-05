@@ -1,15 +1,16 @@
 <?php
 require_once '../abstractClass/CacheGetter.php';
-
+include_once '../BD/WorkWithDb.stackoverflow.class.php';
 class CacheGetter_stackoverflow extends CacheGetter
 {
-    protected function formationMapWithText($idAndLinksArray)
+    protected function formationMapWithText($idVacanciesLinksDateAddArray)
     {
-        $arrayOfId = parent::getAllIdOfVacancies($idAndLinksArray);
-        foreach ($idAndLinksArray as $id) {
+        $arrayOfId = parent::getAllIdOfVacancies($idVacanciesLinksDateAddArray);
+        foreach ($idVacanciesLinksDateAddArray as $vacancyInfo) {
 
-            $vacancyMap[$id['id_vacancies']] = array('id_vacancies' => $id['id_vacancies'],
-                'linksToJob' => $id['linksToJob'],
+            $vacancyMap[$vacancyInfo['id_vacancies']] = array('id_vacancies' => $vacancyInfo['id_vacancies'],
+                'linksToJob' => $vacancyInfo['linksToJob'],
+                'dateAdd' => $vacancyInfo['dateAdd'],
                 'text' => null);
         }
 
@@ -21,14 +22,16 @@ class CacheGetter_stackoverflow extends CacheGetter
         }
         foreach ($vacancyMap as $vacancyId => $vacancyIdAndCompany) {
             if (null != $dbAnswerMap[$vacancyId]) {
-                $vacancyIdAndTextMap[$vacancyId] = array('id_vacancies' => $vacancyId,
+                $vacancyIdLinksDateAddTextMap[$vacancyId] = array('id_vacancies' => $vacancyId,
+                    'dateAdd' => $vacancyMap[$vacancyId]['dateAdd'],
                     'text' => $dbAnswerMap[$vacancyId]['text']);
             } else {
-                $vacancyIdAndTextMap[$vacancyId] = array('id_vacancies' => $vacancyId,
+                $vacancyIdLinksDateAddTextMap[$vacancyId] = array('id_vacancies' => $vacancyId,
                     'text' => null,
+                    'dateAdd' => $vacancyMap[$vacancyId]['dateAdd'],
                     'linkToJob' => $vacancyMap[$vacancyId]['linksToJob']);
             }
         }
-        return $vacancyIdAndTextMap;
+        return $vacancyIdLinksDateAddTextMap;
     }
 }

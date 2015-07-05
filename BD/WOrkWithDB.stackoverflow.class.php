@@ -1,6 +1,6 @@
 <?php
 //namespace BD\WorkWithDB;
-include_once 'ConnectToDB.class.php';
+include_once 'ConnectToDB.php';
 
 class WorkWithDB1 {
 
@@ -47,12 +47,32 @@ class WorkWithDB1 {
         return $this->db2Arr($queryResult);
     }
 
-    function insertData($idVacancies, $text) {
+//    function insertData($idVacancies, $text) {
+//        $stmt = $this->_db->db->prepare(
+//            "INSERT INTO stackoverflow_vacancy_info (id_vacancies,text_vacancies)
+//                VALUES(:id_vacancies,:text_vacancies)");
+//        $stmt->bindParam(':id_vacancies', $idVacancies);
+//        $stmt->bindParam(':text_vacancies', $text);
+//        $stmt->execute();
+//    }
+
+    function insertDataWithNowDate($idVacancies, $text) {
         $stmt = $this->_db->db->prepare(
-            "INSERT INTO stackoverflow_vacancy_info (id_vacancies,text_vacancies)
-                VALUES(:id_vacancies,:text_vacancies)");
+            "INSERT INTO stackoverflow_vacancy_info (id_vacancies,text_vacancies,date_add)
+                VALUES(:id_vacancies,:text_vacancies,:id_company,NOW())");
         $stmt->bindParam(':id_vacancies', $idVacancies);
         $stmt->bindParam(':text_vacancies', $text);
+        $stmt->execute();
+    }
+
+    function insertDataWithDate($idVacancies, $text,$timeInterval,$daysOrWeeks) {
+        $stmt = $this->_db->db->prepare(
+            "INSERT INTO stackoverflow_vacancy_info (id_vacancies,text_vacancies,date_add)
+                VALUES(:id_vacancies,:text_vacancies,DATE_ADD(NOW(), INTERVAL -"."$daysOrWeeks"." $timeInterval))");
+        $stmt->bindParam(':id_vacancies', $idVacancies);
+        $stmt->bindParam(':text_vacancies', $text);
+//        $stmt->bindParam(':daysOrWeeks', $daysOrWeeks);
+//        $stmt->bindParam(':timeInterval', $timeInterval);
         $stmt->execute();
     }
 

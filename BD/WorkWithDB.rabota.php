@@ -1,7 +1,7 @@
 <?php
 //namespace BD\WorkWithDB;
-include_once 'ConnectToDB.class.php';
-
+include_once 'ConnectToDB.php';
+//include_once '../abstractClass/WorkWithDB.php';
 class WorkWithDB2 {
 
     protected $_db;
@@ -58,8 +58,6 @@ class WorkWithDB2 {
     }
 
     function insertDataWithDate($idVacancies, $text,$companyId,$timeInterval,$daysOrWeeks) {
-            var_dump($daysOrWeeks);
-        var_dump($timeInterval);
         $stmt = $this->_db->db->prepare(
             "INSERT INTO rabota_vacancy_info (id_vacancies,text_vacancies,id_company,date_add)
                 VALUES(:id_vacancies,:text_vacancies,:id_company,DATE_ADD(NOW(), INTERVAL -".":daysOrWeeks"." $timeInterval))");
@@ -70,12 +68,5 @@ class WorkWithDB2 {
 //        $stmt->bindParam(':timeInterval', $timeInterval);
         $stmt->execute();
     }
-
-//    function insertDatenow(){
-//        $stmt = $this->_db->db->prepare(
-//            "INSERT INTO rabota_vacancy_info (id_vacancies,text_vacancies,id_company)
-//                VALUES(:id_vacancies,:text_vacancies,:id_company)");
-//        $stmt->execute();
-//    }
 
 }

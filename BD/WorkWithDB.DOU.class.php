@@ -1,6 +1,6 @@
 <?php
 
-include_once 'ConnectToDB.class.php';
+include_once 'ConnectToDB.php';
 
 class WorkWithDB {
 
@@ -57,12 +57,13 @@ class WorkWithDB {
         return $this->db2Arr($stmt);
     }
 
-    function insertData($idVacancies, $text) {
+    function insertData($idVacancies, $text,$addDate) {
         $stmt = $this->_db->db->prepare(
-                "INSERT INTO dou_vacancy_info (id_vacancies,text_vacancies)
-                VALUES(:id_vacancies,:text_vacancies)");
+                "INSERT INTO dou_vacancy_info (id_vacancies,text_vacancies,date_add)
+                VALUES(:id_vacancies,:text_vacancies,:date_add)");
         $stmt->bindParam(':id_vacancies', $idVacancies);
         $stmt->bindParam(':text_vacancies', $text);
+        $stmt->bindParam(':date_add', $addDate);
         $stmt->execute();
     }
     function insertSectionAndTown($town, $tag) {

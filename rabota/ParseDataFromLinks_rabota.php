@@ -3,9 +3,8 @@ include_once '../abstractClass/ParseDataFromLinks.php';
 
 class ParseDataFromLinks_rabota extends ParseDataFromLinks
 {
-     function processingReferences($linksToJobsArray)
+     protected function processingReferences($linksToJobsArray)
     {
-        var_dump($linksToJobsArray[0]);
         if (!empty($linksToJobsArray)) {
             $linksToJobsLength = sizeof($linksToJobsArray);
             for ($i = 0; $i < $linksToJobsLength; $i++) {
@@ -15,7 +14,7 @@ class ParseDataFromLinks_rabota extends ParseDataFromLinks
                 preg_match("/\d+/", $arrayOfCompanyId[0], $companyId);
                 $idOfVacancies = $vacancyId[0];
                 $idOfCompany = $companyId[0];
-                $idAndLinksArray[] = array(
+                $idVacanciesLinksCIdCompanyDateAddArray[] = array(
                     'id_vacancies' => $idOfVacancies,
                     'linksToJob' => $linksToJobsArray[$i]['linkToJob'],
                     'companyId' => $idOfCompany,
@@ -23,12 +22,6 @@ class ParseDataFromLinks_rabota extends ParseDataFromLinks
                 );
             }
         }
-        return $idAndLinksArray;
+        return $idVacanciesLinksCIdCompanyDateAddArray;
     }
 }
-//$links = [0=>['linkToJob'=>'http://rabota.ua//company1556693/vacancy5679349','dateAdd'=>'2недели']];
-//
-//$c = new ParseDataFromLinks_rabota();
-//$x = $c->getProcessingReferences($links);
-//echo '<pre>';
-//print_r($x);

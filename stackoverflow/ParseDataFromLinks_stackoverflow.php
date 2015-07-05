@@ -3,20 +3,21 @@ include_once '../abstractClass/ParseDataFromLinks.php';
 
 class ParseDataFromLinks_stackoverflow extends ParseDataFromLinks
 {
-    protected function processingReferences($linksToJobsArray)
+    protected function processingReferences($linksToJobsDateAddArray)
     {
-        if (!empty($linksToJobsArray)) {
-            $linksToJobsLength = sizeof($linksToJobsArray);
+        if (!empty($linksToJobsDateAddArray)) {
+            $linksToJobsLength = sizeof($linksToJobsDateAddArray);
             for ($i = 0; $i < $linksToJobsLength; $i++) {
-                preg_match("/\/\d+\//", $linksToJobsArray[$i], $arrayOfVacancies);
+                preg_match("/\/\d+\//", $linksToJobsDateAddArray[$i]['linkToJob'], $arrayOfVacancies);
                 preg_match("/\d+/", $arrayOfVacancies[0], $arrayOfVacanciesId);
                 $idOfVacancies = $arrayOfVacanciesId[0];
-                $idAndLinksArray[] = array(
+                $idVacancyLinksDateAddArray[] = array(
                     'id_vacancies' => $idOfVacancies,
-                    'linksToJob' => $linksToJobsArray[$i]
+                    'linksToJob' => $linksToJobsDateAddArray[$i]['linkToJob'],
+                    'dateAdd' => $linksToJobsDateAddArray[$i]['dateAdd']
                 );
             }
         }
-        return $idAndLinksArray;
+        return $idVacancyLinksDateAddArray;
     }
 }
