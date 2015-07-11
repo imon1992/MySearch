@@ -1,7 +1,16 @@
 <button id="addFieldToSearch">Добавить поля для поиска</button>
+<p><input id="withDateOrNot" type="checkbox"> Поставте галочку для поиска по дате(иначе поиск будет идти по имеющимся на сайте вакансиям)</p>
+<div id="date">
+    <p>Кликните на поле ввода даты для вызова календаря:<br>
+        с <input type="text" id="from" value="dd-mm-yy" onfocus="this.select();lcs(this)"
+                 onclick="event.cancelBubble=true;lcs(this)">
+        по <input type="text" id="by" value="dd-mm-yy" onfocus="this.select();lcs(this)"
+                  onclick="event.cancelBubble=true;this.select();lcs(this)">
+    </p>
+</div>
 <select id="searchTag">
     <option value="php">php</option>
-    <option value="symfony2">symfony2</option>
+    <!--<option value="symfony2">symfony2</option>-->
     <option value="python">python</option>
     <option value="devops">devOps</option>
     <option value="javascript">javaScript</option>

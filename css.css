@@ -6,10 +6,35 @@ body
     font: 10pt verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
     margin: 0; padding: 0;
 }
-
+#searchTable tbody {
+    vertical-align: top;
+}
+#date{
+    display: none;
+}
 #search {
     padding-top: 10%;
     /*align: center;*/
+    position: absolute;
+    background-color: #ffffff;
+    width: 938px;
+}
+#searchForm{
+    width: 50%;
+    /*height: 80%;*/
+}
+#searchResult{
+    position: relative;
+    float: left;
+    /*top:auto;*/
+    left: 50%;
+    /*bottom: 188px;*/
+    /*padding-top: 10px;*/
+    /*margin-top: 10px;*/
+    /*border-color: #0000cc;*/
+    /*border: dotted;*/
+    /*vertical-align: top;*/
+    /*width: 50%;*/
 }
 #addFieldToSearch{
     display: block;

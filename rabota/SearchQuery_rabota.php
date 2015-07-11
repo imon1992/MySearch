@@ -1,25 +1,30 @@
 <?php
 include_once '../lib/simpl/simple_html_dom.php';
 include_once '../abstractClass/SearchQuery.php';
-include_once 'MainVacationPageParser_rabota.php';
-include_once 'ParseDataFromLinks_rabota.php';
-include_once 'CacheGetter_rabota.php';
-include_once 'ProcessingDataArrayWithText_rabota.php';
+//include_once 'ProcessingDataArrayWithText_dou.php';
+//include_once 'MainVacationPageParser_dou.php';
+//include_once 'CacheGetter_dou.php';
+//include_once 'ParseDataFromLinks_dou.php';
+include_once '../general/ProcessingVacanciesInfo.php';
+include_once 'ProcessingWithDate_rabota.php';
+include_once '../general/ProcessingWithCity.php';
+
 
 class SearchQuery_rabota extends SearchQuery{
-    protected function search($searchTag, $searchObject){
-        $mainVacationPageParser = new MainVacationPageParser_rabota();
-        $linksToJobsArray = $mainVacationPageParser->getAllLinks($searchTag);
+    protected function search($searchTagCityAndDate, $searchObject){
+        $processingWithCity = new ProcessingWithCity();
+        $city = $processingWithCity->generateCity($searchTagCityAndDate);
 
-        $parserIdFromLinks = new ParseDataFromLinks_rabota();
-        $idAndCompanyArray = $parserIdFromLinks->getProcessingReferences($linksToJobsArray);
+        $generateDateParams = new ProcessingWithDate_rabota();
+        $dateFromToBy = $generateDateParams->generateDateInfo($searchTagCityAndDate);
 
-        $cacheGetter = new CacheGetter_rabota();
-        $idAndCompaniesAndMayNotBeCompleteTextArray = $cacheGetter->getMapWithText($idAndCompanyArray);
+        if($dateFromToBy['error']){
+            return $dateFromToBy['errorText'];
+        }
 
-        $processingDataArrayWithText = new ProcessingDataArrayWithText_rabota();
-        $fullMapArray = $processingDataArrayWithText->getTheMissingText($idAndCompaniesAndMayNotBeCompleteTextArray);
+        $processingVacanciesInfo = new ProcessingVacanciesInfo_dou();
+        $vacanciesMap = $processingVacanciesInfo->getVacanciesInfo($dateFromToBy,__CLASS__,$city);
 
-        return parent::findKeyWords($fullMapArray,$searchObject);
+        return parent::findKeyWords($vacanciesMap, $searchObject);
     }
 }

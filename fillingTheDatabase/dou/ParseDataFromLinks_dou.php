@@ -1,11 +1,13 @@
 <?php
-
-include_once '../abstractClass/ParseDataFromLinks.php';
+define("DOCUMENT_ROOT", $_SERVER['DOCUMENT_ROOT']);
+include_once DOCUMENT_ROOT.'/Search/abstractClass/ParseDataFromLinks.php';
 
 class ParseDataFromLinks_dou extends ParseDataFromLinks
 {
     protected function processingReferences($linksToJobsArray)
     {
+//        var_dump($linksToJobsArray);
+                $searchTag = array_pop($linksToJobsArray);
         if (!empty($linksToJobsArray)) {
             $linksToJobsLength = sizeof($linksToJobsArray);
             for ($i = 0; $i < $linksToJobsLength; $i++) {
@@ -15,15 +17,16 @@ class ParseDataFromLinks_dou extends ParseDataFromLinks
                 $beginningCompaniesPosition = stripos($linksToJobsArray[$i], 'companies/');
                 $lengthURL = strlen($linksToJobsArray[$i]);
                 $newLine = substr($linksToJobsArray[$i], $beginningCompaniesPosition + 10, $lengthURL);
-                $searcPosition = stripos($newLine, '/vacancies');
+                $searchPosition = stripos($newLine, '/vacancies');
                 $lengthNewLine = strlen($newLine);
-                $companyName = substr($newLine, -$lengthNewLine, $searcPosition);
+                $companyName = substr($newLine, -$lengthNewLine, $searchPosition);
                 $data[] = array(
-                    'company' => "$companyName",
-                    'id_vacancies' => "$idOfVacancies"
+                    'id_vacancies' => "$idOfVacancies",
+                    'searchTag' => $searchTag
                 );
             }
         }
+//        var_dump($data);
         return $data;
     }
 }

@@ -1,6 +1,8 @@
 <?php
-require_once '../abstractClass/CacheGetter.php';
-include_once '../BD/WorkWithDb.stackoverflow.class.php';
+define("DOCUMENT_ROOT", $_SERVER['DOCUMENT_ROOT']);
+
+require_once DOCUMENT_ROOT.'/Search/abstractClass/CacheGetter.php';
+include_once DOCUMENT_ROOT.'/Search/BD/WOrkWithDB.stackoverflow.class.php';
 class CacheGetter_stackoverflow extends CacheGetter
 {
     protected function formationMapWithText($idVacanciesLinksDateAddArray)
@@ -11,6 +13,8 @@ class CacheGetter_stackoverflow extends CacheGetter
             $vacancyMap[$vacancyInfo['id_vacancies']] = array('id_vacancies' => $vacancyInfo['id_vacancies'],
                 'linksToJob' => $vacancyInfo['linksToJob'],
                 'dateAdd' => $vacancyInfo['dateAdd'],
+                'searchTag' => $vacancyInfo['searchTag'],
+//                'city' => $vacancyInfo['city'],
                 'text' => null);
         }
 
@@ -22,16 +26,17 @@ class CacheGetter_stackoverflow extends CacheGetter
         }
         foreach ($vacancyMap as $vacancyId => $vacancyIdAndCompany) {
             if (null != $dbAnswerMap[$vacancyId]) {
-                $vacancyIdLinksDateAddTextMap[$vacancyId] = array('id_vacancies' => $vacancyId,
-                    'dateAdd' => $vacancyMap[$vacancyId]['dateAdd'],
-                    'text' => $dbAnswerMap[$vacancyId]['text']);
+continue;
             } else {
                 $vacancyIdLinksDateAddTextMap[$vacancyId] = array('id_vacancies' => $vacancyId,
                     'text' => null,
                     'dateAdd' => $vacancyMap[$vacancyId]['dateAdd'],
+                    'searchTag' => $vacancyMap[$vacancyId]['searchTag'],
+//                    'city' => $vacancyMap[$vacancyId]['city'],
                     'linkToJob' => $vacancyMap[$vacancyId]['linksToJob']);
             }
         }
+//        var_dump($vacancyIdLinksDateAddTextMap);
         return $vacancyIdLinksDateAddTextMap;
     }
 }

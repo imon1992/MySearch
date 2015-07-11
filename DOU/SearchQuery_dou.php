@@ -1,26 +1,35 @@
 <?php
 include_once '../lib/simpl/simple_html_dom.php';
 include_once '../abstractClass/SearchQuery.php';
-include_once 'ProcessingDataArrayWithText_dou.php';
-include_once 'MainVacationPageParser_dou.php';
-include_once 'CacheGetter_dou.php';
-include_once 'ParseDataFromLinks_dou.php';
+//include_once 'ProcessingDataArrayWithText_dou.php';
+//include_once 'MainVacationPageParser_dou.php';
+//include_once 'CacheGetter_dou.php';
+//include_once 'ParseDataFromLinks_dou.php';
+include_once '../general/ProcessingVacanciesInfo.php';
+include_once 'ProcessingWithDate_dou.php';
+include_once '../general/ProcessingWithCity.php';
 
 class SearchQuery_dou extends SearchQuery
 {
-    protected function search($searchTagAndCity, $searchObject)
+    protected function search($searchTagCityAndDate, $searchObject)
     {
-        $mainVacationPageParser = new MainVacationPageParser_dou();
-        $linksToJobsArray = $mainVacationPageParser->getAllLinks($searchTagAndCity);
+//        $processingWithCity = new ProcessingWithCity();
+//        $city = $processingWithCity->generateCity($searchTagCityAndDate);
 
-        $parserIdAndCompanyFromLinks = new ParseDataFromLinks_dou();
-        $idAndCompanyArray = $parserIdAndCompanyFromLinks->getProcessingReferences($linksToJobsArray);
+    $generateDateParams = new GenerateDataParams_dou();
+        $dateFromToBy = $generateDateParams->generateDateInfo($searchTagCityAndDate);
+var_dump($dateFromToBy);
+        if($dateFromToBy['error']){
+            return $dateFromToBy['errorText'];
+        }
 
-        $cacheGetter = new CacheGetter_dou();
-        $idAndCompaniesAndMayNotBeCompleteTextArray = $cacheGetter->getMapWithText($idAndCompanyArray);
-        $processingDataArrayWithText = new ProcessingDataArrayWithText_dou();
-        $fullMapArray = $processingDataArrayWithText->getTheMissingText($idAndCompaniesAndMayNotBeCompleteTextArray);
-
-        return parent::findKeyWords($fullMapArray, $searchObject);
+        $processingVacanciesInfo = new ProcessingVacanciesInfo_dou();
+        $vacanciesMap = $processingVacanciesInfo->getVacanciesInfo($dateFromToBy,__CLASS__,$searchTagCityAndDate);
+var_dump($vacanciesMap);
+        return parent::findKeyWords($vacanciesMap, $searchObject);
     }
 }
+
+//$c = new SearchQuery_dou();
+//$c->getSearch(json_decode('[{"searchTag":"PHP","site":"?dou","city":"","date":{"from":"03-05-2015","by":"09-07-2015"}}]'),'');
+//[{"searchTag":"PHP","site":"?dou","city":"","date":{"from":"03-07-2015","by":"09-07-2015"}}]

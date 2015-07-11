@@ -1,8 +1,10 @@
 <?php
+define("DOCUMENT_ROOT", $_SERVER['DOCUMENT_ROOT']);
 
-include_once '../abstractClass/MainVacationPageParser.php';
-include_once 'CurlInit_stackoverflow.php';
-include_once '../lib/simpl/simple_html_dom.php';
+include_once DOCUMENT_ROOT.'/Search/abstractClass/MainVacationPageParser.php';
+include_once  DOCUMENT_ROOT.'/Search/stackoverflow/CurlInit_stackoverflow.php';
+include_once DOCUMENT_ROOT.'/Search/lib/simpl/simple_html_dom.php';
+
 
 class MainVacationPageParser_stackoverflow extends MainVacationPageParser
 {
@@ -15,12 +17,16 @@ class MainVacationPageParser_stackoverflow extends MainVacationPageParser
         $html->load($curlResult);
 
         $linksToJobAndDateAdd = array();
+
+
+
         foreach ($html->find('div[class=listResults -jobs list jobs]') as $element) {
 
             foreach ($element->find('div.listResults div.tags') as $tagsName) {
                 if (strpos(strtolower($tagsName), strtolower($tag)) !== false) {
                     $partLinksToJob[] = $tagsName->parentNode()->childNodes(2)->childNodes(0)->href;
                     $dateAdd[] = $tagsName->parentNode()->childNodes(0)->innertext;
+//                    $cities[]= $processingWithCity->parseCityFromStringStackoverflow($tagsName->parentNode()->childNodes(3)->innertext);
                 } else {
                     break 2;
                 }
@@ -29,7 +35,8 @@ class MainVacationPageParser_stackoverflow extends MainVacationPageParser
         if ($partLinksToJob != null && is_array($partLinksToJob)) {
             foreach ($partLinksToJob as $key => $linksPart) {
 
-                $linksToJobAndDateAdd[] = array('linkToJob' => 'http://careers.stackoverflow.com/' . $linksPart, 'dateAdd' => $dateAdd[$key]);
+                $linksToJobAndDateAdd[] = array('linkToJob' => 'http://careers.stackoverflow.com/' . $linksPart,
+                    'dateAdd' => $dateAdd[$key]);
             }
         }
         return $linksToJobAndDateAdd;
@@ -58,6 +65,7 @@ class MainVacationPageParser_stackoverflow extends MainVacationPageParser
             if ($linksToJob != null && is_array($linksToJob))
                 $allLinksToJobAndDateAdd = array_merge((array)$allLinksToJobAndDateAdd, $linksToJob);
         }
+        array_push($allLinksToJobAndDateAdd,$searchTag);
 
         return $allLinksToJobAndDateAdd;
 

@@ -1,4 +1,5 @@
 <?php
+//header("Content-Type: text/html; charset=utf-8");
 //require_once '../DOU/SearchQuery_dou.class.php';
 //require_once '../stackoverflow/SearchQuery_stackoverflow.class.php';
 require_once '../BD/WorkWithDB.DOU.class.php';
@@ -6,11 +7,12 @@ require_once '../DOU/SearchQuery_dou.php';
 require_once '../stackoverflow/SearchQuery_stackoverflow.php';
 require_once '../rabota/SearchQuery_rabota.php';
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['searchData'])) {
-
+//
     $json = $_POST['searchData'];
     $searchParams = json_decode($json);
     $whereAndWhatSearchObject = array_shift($searchParams);
     $whereAndWhatSearchObjectLength = sizeof($whereAndWhatSearchObject);
+
     if ($whereAndWhatSearchObject->site == '?dou'){
         $searchQuery = new SearchQuery_dou();
         $searchResponse = $searchQuery->getSearch($whereAndWhatSearchObject, $searchParams);
@@ -18,17 +20,17 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['searchData'])) {
         echo $searchResponse;
     }
     if ($whereAndWhatSearchObject->site == '?stackoverflow') {
-        $searchTag = $whereAndWhatSearchObject->searchTag;
+//        $searchTag = $whereAndWhatSearchObject->searchTag;
         $searchQuery = new SearchQuery_stackoverflow();
-        $searchResponse = $searchQuery->getSearch($searchTag, $searchParams);
+        $searchResponse = $searchQuery->getSearch($whereAndWhatSearchObject, $searchParams);
         $searchResponse = json_encode($searchResponse);
         echo $searchResponse;
     }
 
     if ($whereAndWhatSearchObject->site == '?rabota') {
-        $searchTag = $whereAndWhatSearchObject->searchTag;
+//        $searchTag = $whereAndWhatSearchObject->searchTag;
         $searchQuery = new SearchQuery_rabota();
-        $searchResponse = $searchQuery->getSearch($searchTag, $searchParams);
+        $searchResponse = $searchQuery->getSearch($whereAndWhatSearchObject, $searchParams);
         $searchResponse = json_encode($searchResponse);
         echo $searchResponse;
     }
@@ -48,3 +50,4 @@ $towns = $db->getTowns($tag);
     echo $towns;
 }
 
+//[{"searchTag":"PHP","site":"?dou","city":"Николаев","withCityOrNot":true},{"name":"php","search":[{"name":"php"}],"notPresented":[{}]}]

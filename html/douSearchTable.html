@@ -1,6 +1,16 @@
 <button id="addFieldToSearch">Добавить поля для поиска</button>
 <p><input id="withCityOrNot" type="checkbox" checked="checked"> Поиск по городу(уберите галочку и выбирете город, иначе поиск будет идти только по тегу)</p>
+<p><input id="withDateOrNot" type="checkbox"> Поставте галочку для поиска по дате(иначе поиск будет идти по имеющимся на сайте вакансиям)</p>
+<div id="date">
+<p>Кликните на поле ввода даты для вызова календаря:<br>
+    с <input type="text" id="from" value="dd-mm-yy" onfocus="this.select();lcs(this)"
+             onclick="event.cancelBubble=true;lcs(this)">
+    по <input type="text" id="by" value="dd-mm-yy" onfocus="this.select();lcs(this)"
+              onclick="event.cancelBubble=true;this.select();lcs(this)">
+</p>
+    </div>
 <!--<p><input name="dzen" type="radio" value="tagSearch"> Поиск по выбранному тегу</p>-->
+<div>
 <select id="searchTag">
     <option value="Java">Java</option>
     <option value="Python">Python</option>
@@ -14,13 +24,15 @@
     <option value="Front%20End">Front End</option>
     <option value="Project%20Manager">Project Manager</option>
     <option value="DevOps">DevOps</option>
-    <option value="beginners">Начинающим</option>
 </select>
-
-<p>В каком разделе ищем</p>
-<select id="city">
-    <!--<option value="Николаев">Николаев</option>-->
-</select>
+</div>
+<>
+<div id="city">
+    <p>В каком разделе ищем</p>
+    <select >
+        <!--<option value="Николаев">Николаев</option>-->
+    </select>
+</div>
 
 <p>В каком городе ищем</p>
 <table id="searchTable">

@@ -1,40 +1,30 @@
 <?php
+header("Content-Type: text/html; charset=utf-8");
+define("DOCUMENT_ROOT", $_SERVER['DOCUMENT_ROOT']);
+include_once DOCUMENT_ROOT.'/Search/dou/CurlInit_Dou.php';
 
-include_once 'CurlInit_Dou.php';
-include_once '../abstractClass/MainVacationPageParser.php';
+
+include_once DOCUMENT_ROOT.'/Search/abstractClass/MainVacationPageParser.php';
+include_once DOCUMENT_ROOT.'/Search/general/GenerateUrl.php';
 
 class MainVacationPageParser_dou extends MainVacationPageParser
 {
-
     private function parseFirstPart($url)
     {
         $curlInit = new CurlInit_Dou();
         $curlResult = $curlInit->getCurlInit($url);
         preg_match_all("/http\:\/\/jobs\.dou\.ua\/companies\/([\w-]+)\/vacancies\/\d+\//", $curlResult, $linksToJobs);
-
+//        var_dump($linksToJobs);
         return $linksToJobs;
     }
 
-    protected function generateAllLinks($searchTagAndCity)
+    protected function generateAllLinks($searchTag)
     {
-        $searchTag = parent::changSumSymbols($searchTagAndCity->searchTag);
-        $city = $searchTagAndCity->city;
-        if ($city === false) {
-            if ($searchTag != 'beginners') {
-                $url = 'http://jobs.dou.ua/vacancies/?search=' . $searchTag;
-            } else {
-                $url = 'http://jobs.dou.ua/vacancies/?beginners';
-            }
-        } else {
-            if ($city == 'удаленная работа') {
-                $url = 'http://jobs.dou.ua/vacancies/?remote&search=' . $searchTag;
-            } else if ($city == 'работа за рубежом') {
-                $url = 'http://jobs.dou.ua/vacancies/?relocation&search=' . $searchTag;
-            } else {
-                $url = 'http://jobs.dou.ua/vacancies/?city=' . $city . '&search=' . $searchTag;
-            }
-        }
-
+        $searchTag = parent::changSumSymbols($searchTag);
+//        var_dump($searchTag);
+$generateUrl = new GenerateUrl();
+        $url = $generateUrl->generateUrlFirstPageDou($searchTag);
+//        var_dump($url);
         $html = file_get_html($url);
         foreach ($html->find('div.b-vacancies-head h1') as $element) {
             $arrayReferencesVacancies[] = $element->innertext;
@@ -46,18 +36,12 @@ class MainVacationPageParser_dou extends MainVacationPageParser
         } else {
             $numberOfIterations = ceil(($numberOfVacancies - 20) / 40);
         }
-
         $firstPartJobs = $this->parseFirstPart($url);
         foreach ($firstPartJobs[0] as $element) {
             $firstArray[] = $element;
         }
-        if ($city != false) {
-            $url = "http://jobs.dou.ua/vacancies/xhr-load/?city=$city&search=$searchTag";
-        } else {
-            $url = "http://jobs.dou.ua/vacancies/xhr-load/?search=$searchTag";
-        }
+$url = $generateUrl->generateUrlNextPartDou($searchTag);
         $curlInit = new CurlInit_Dou();
-
         for ($nextNumberOfVacation = 20; $nextNumberOfVacation <= ($numberOfIterations * 40) + 20; $nextNumberOfVacation += 40) {
             $curlResult = $curlInit->getCurlInit($url, $nextNumberOfVacation);
             preg_match_all("/http\:\/\/jobs\.dou\.ua\/companies\/([\w-]+)\/vacancies\/\d+\//", $curlResult, $secondPartJobs);
@@ -65,13 +49,15 @@ class MainVacationPageParser_dou extends MainVacationPageParser
                 $secondArray[] = $element;
             }
         }
-
+//        var_dump($firstArray);
+//        var_dump($secondArray);
         if ($numberOfVacancies > 20) {
             $linksToJobs = array_merge($firstArray, $secondArray);
         } else {
             $linksToJobs = $firstArray;
         }
+        array_push($linksToJobs,$searchTag);
+//        var_dump($linksToJobs);
         return $linksToJobs;
     }
-
 }

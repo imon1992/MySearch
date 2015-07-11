@@ -1,5 +1,6 @@
 <?php
-include_once '../abstractClass/CurlInit.php';
+define("DOCUMENT_ROOT", $_SERVER['DOCUMENT_ROOT']);
+include_once DOCUMENT_ROOT .'/Search/abstractClass/CurlInit.php';
 
 class CurlInit_Dou extends CurlInit
 {

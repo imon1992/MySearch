@@ -12,6 +12,18 @@ window.onload = function () {
             }
         }
     }
+    if (document.getElementById('withDateOrNot') != null) {
+        if (document.getElementById('withDateOrNot').checked == false) {
+            document.getElementById('withDateOrNot').onchange = function () {
+                if (document.getElementById('date').style.display == 'block') {
+                    document.getElementById('date').style.display = 'none';
+                } else {
+                    document.getElementById('date').style.display = 'block'
+                }
+            }
+        }
+    }
+    //console.log(document.getElementById('city'));
     if (document.getElementById('city') != null)
         document.getElementById('searchTag').onchange = addCity;
 
@@ -52,13 +64,25 @@ window.onload = function () {
         var tr = this.parentElement;
         var td = document.createElement('td');
         td.setAttribute('height', '50');
+        td.style.display = 'block';
         var input = document.createElement('input');
         tr.insertBefore(td, this);
         td.appendChild(input);
     }
 
     function addCity() {
-        var city = document.getElementById('city');
+        //var body = document.getElementById('search');
+        //var children = body.childNodes;
+        //
+        //while (children.length) {
+        //    body.removeChild(children[0]);
+        //}
+        var city = document.getElementById('city').lastElementChild;
+        var children = city.childNodes;
+        while (children.length) {
+            city.removeChild(children[0]);
+        }
+        //console.log(city);
         var searchTag = document.getElementById('searchTag').value;
         console.log(searchTag);
         function addOptionToSelect(data) {
@@ -91,8 +115,10 @@ window.onload = function () {
         //console.log(document.getElementById('withCityOrNot').checked);
         var searchArray = getSearch();
         var notPresentedArray = getNotPresented();
+        var date = getDate();
         var searchTag = document.getElementById('searchTag').value;
         var city = document.getElementById('city');
+        console.log(city)
         var site = window.location.search;
         //console.log(city);
         var searchLength = searchArray.length;
@@ -102,15 +128,21 @@ window.onload = function () {
             //searchDataArray[0] = new Array(searchTag);
             searchDataArray[0] = {'searchTag':searchTag,'site':site};
         } else {
-            city = city.value;
+            city = city.lastElementChild.value;
             searchDataArray[0] = {'searchTag':searchTag,'site':site,'city':city};
+        }
+        console.log(searchDataArray);
+        if(document.getElementById('withDateOrNot').checked){
+            searchDataArray[0].date = date ;
         }
         if (document.getElementById('withCityOrNot') != null) {
 
-        if (document.getElementById('withCityOrNot').checked == false) {
-            searchDataArray[0][1] = false;
-            //console.log((searchDataArray));
-        }
+        //if (document.getElementById('withCityOrNot').checked == false) {
+        //    searchDataArray[0].withCityOrNot = false;
+        //    //console.log((searchDataArray));
+        //}else{
+        //    searchDataArray[0].withCityOrNot = true;
+        //}
     }
 
     for (i = 0; i < searchLength; i++) {
@@ -186,6 +218,15 @@ function getNotPresented() {
     }
     return notPresentedArray;
 }
+
+    function getDate(){
+        //if(document.getElementById(''))
+        var from = document.getElementById('from').value;
+        var by = document.getElementById('by').value;
+        var date={'from':from,
+              'by':by};
+        return date
+    }
 
 function ajax(url, callback, type, method, params, header) {
     if (params == undefined) {

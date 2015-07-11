@@ -1,27 +1,31 @@
 <?php
 include_once '../lib/simpl/simple_html_dom.php';
 include_once '../abstractClass/SearchQuery.php';
-include_once 'MainVacationPageParser_stackoverflow.php';
-include_once 'ParseDataFromLinks_stackoverflow.php';
-include_once 'CacheGetter_stackoverflow.php';
-include_once 'ProcessingDataArrayWithText_stackoverflow.php';
+//include_once 'ProcessingDataArrayWithText_dou.php';
+//include_once 'MainVacationPageParser_dou.php';
+//include_once 'CacheGetter_dou.php';
+//include_once 'ParseDataFromLinks_dou.php';
+include_once '../general/ProcessingVacanciesInfo.php';
+include_once 'ProcessingWithDate_stackoverflow.php';
+include_once '../general/ProcessingWithCity.php';
 
 class SearchQuery_stackoverflow extends SearchQuery
 {
-    protected function search($searchTag, $searchObject)
+    protected function search($searchTagCityAndDate, $searchObject)
     {
-        $mainVacationPageParser = new MainVacationPageParser_stackoverflow();
-        $linksToJobsArray = $mainVacationPageParser->getAllLinks($searchTag);
+        $processingWithCity = new ProcessingWithCity();
+        $city = $processingWithCity->generateCity($searchTagCityAndDate);
 
-        $parserIdFromLinks = new ParseDataFromLinks_stackoverflow();
-        $idAndCompanyArray = $parserIdFromLinks->getProcessingReferences($linksToJobsArray);
+        $generateDateParams = new ProcessingWithDate_stackoverflow();
+        $dateFromToBy = $generateDateParams->generateDateInfo($searchTagCityAndDate);
 
-        $cacheGetter = new CacheGetter_stackoverflow();
-        $idAndCompaniesAndMayNotBeCompleteTextArray = $cacheGetter->getMapWithText($idAndCompanyArray);
+        if($dateFromToBy['error']){
+            return $dateFromToBy['errorText'];
+        }
+        $processingVacanciesInfo = new ProcessingVacanciesInfo_dou();
+        $vacanciesMap = $processingVacanciesInfo->getVacanciesInfo($dateFromToBy,__CLASS__,$city);
 
-        $processingDataArrayWithText = new ProcessingDataArrayWithText_stackoverflow();
-        $fullMapArray = $processingDataArrayWithText->getTheMissingText($idAndCompaniesAndMayNotBeCompleteTextArray);
-
-        return parent::findKeyWords($fullMapArray, $searchObject);
+        return parent::findKeyWords($vacanciesMap, $searchObject);
     }
 }
+

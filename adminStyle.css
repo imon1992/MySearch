@@ -1,0 +1,12 @@
+a{
+    text-decoration: none;
+    color: #2E5B82;
+    font: bold 11px tahoma, verdana, geneva, lucida, 'lucida grande', arial, helvetica, sans-serif;
+    padding: 3px 6px 3px 6px; white-space: nowrap;
+    border-left: solid 1px #FFF;
+    border-top: solid 1px #FFF;
+    border-right: solid 1px #CCC;
+    border-bottom: solid 1px #CCC;
+    /*display: block;*/
+    background-color: #c9d7f1;
+}
