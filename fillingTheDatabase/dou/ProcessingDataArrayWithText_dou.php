@@ -49,16 +49,10 @@ class ProcessingDataArrayWithText_dou extends ProcessingDataArrayWithText
                     $cities = trim($cities);
                     $cities = explode(',', $cities);
 
-                    if($cities !=null) {
                         foreach ($cities as $city) {
-                            $city =trim($city);
+                            $city = trim($city);
                             $db->insertCities($vacancyId, $city, $tableNameCities);
                         }
-                    }else{
-                        $city = 'Город не известен';
-                        $db->insertCities($vacancyId, $city, $tableNameCities);
-                    }
-
                     $db->insertTags($vacancyId, $tag, $tableNameTags);
                     $db->insertVacancyInfo($vacancyId, $text, $addDate, $tableNameVacancyInfo);
 

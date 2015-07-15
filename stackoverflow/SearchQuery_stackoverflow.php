@@ -18,7 +18,7 @@ class SearchQuery_stackoverflow extends SearchQuery
         if($dateFromToBy['error']){
             return $dateFromToBy['errorText'];
         }
-        $processingVacanciesInfo = new ProcessingVacanciesInfo_dou();
+        $processingVacanciesInfo = new ProcessingVacanciesInfo();
         $vacanciesMap = $processingVacanciesInfo->getVacanciesInfo($dateFromToBy,__CLASS__,$searchTagCityAndDate);
 
         return parent::findKeyWords($vacanciesMap, $searchObject);
