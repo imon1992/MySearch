@@ -16,30 +16,34 @@ class MainVacationPageParser_stackoverflow extends MainVacationPageParser
         $html = new simple_html_dom();
         $html->load($curlResult);
 
-        $linksToJobAndDateAdd = array();
+        $linksToJobDateAddAndTags = array();
 
-
-
+        
         foreach ($html->find('div[class=listResults -jobs list jobs]') as $element) {
 
-            foreach ($element->find('div.listResults div.tags') as $tagsName) {
-                if (strpos(strtolower($tagsName), strtolower($tag)) !== false) {
+            foreach ($element->find('div.listResults div.tags') as $key=>$tagsName) {
                     $partLinksToJob[] = $tagsName->parentNode()->childNodes(2)->childNodes(0)->href;
                     $dateAdd[] = $tagsName->parentNode()->childNodes(0)->innertext;
-//                    $cities[]= $processingWithCity->parseCityFromStringStackoverflow($tagsName->parentNode()->childNodes(3)->innertext);
-                } else {
-                    break 2;
+                
+                foreach ($tagsName->find('a') as $val) {
+                    if ($key != $check)
+                        $tags[$key] = array();
+
+                    $tags[$key][] = $val->innertext;
+                    $check = $key;
                 }
             }
         }
+
         if ($partLinksToJob != null && is_array($partLinksToJob)) {
             foreach ($partLinksToJob as $key => $linksPart) {
 
-                $linksToJobAndDateAdd[] = array('linkToJob' => 'http://careers.stackoverflow.com/' . $linksPart,
-                    'dateAdd' => $dateAdd[$key]);
+                $linksToJobDateAddAndTags[] = array('linkToJob' => 'http://careers.stackoverflow.com/' . $linksPart,
+                    'dateAdd' => $dateAdd[$key],
+                    'tags'=>$tags[$key]);
             }
         }
-        return $linksToJobAndDateAdd;
+        return $linksToJobDateAddAndTags;
     }
 
     protected function generateAllLinks($searchTag)
@@ -63,11 +67,10 @@ class MainVacationPageParser_stackoverflow extends MainVacationPageParser
             }
             $linksToJob = $this->linksParse($urlWithPageNumber, $searchTag);
             if ($linksToJob != null && is_array($linksToJob))
-                $allLinksToJobAndDateAdd = array_merge((array)$allLinksToJobAndDateAdd, $linksToJob);
+                $allLinksToJobDateAddAndTags = array_merge((array)$allLinksToJobDateAddAndTags, $linksToJob);
         }
-        array_push($allLinksToJobAndDateAdd,$searchTag);
 
-        return $allLinksToJobAndDateAdd;
+        return $allLinksToJobDateAddAndTags;
 
     }
 }

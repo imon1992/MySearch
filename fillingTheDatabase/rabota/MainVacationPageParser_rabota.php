@@ -1,10 +1,11 @@
 <?php
 header("Content-Type: text/html; charset=utf-8");
 define("DOCUMENT_ROOT", $_SERVER['DOCUMENT_ROOT']);
-include_once DOCUMENT_ROOT.'/Search/abstractClass/MainVacationPageParser.php';
-include_once DOCUMENT_ROOT.'/Search/rabota/CurlInit_rabota.php';
-include_once DOCUMENT_ROOT.'/Search/lib/simpl/simple_html_dom.php';
-include_once DOCUMENT_ROOT.'/Search/general/ProcessingWithCity.php';
+include_once DOCUMENT_ROOT . '/Search/abstractClass/MainVacationPageParser.php';
+include_once DOCUMENT_ROOT . '/Search/rabota/CurlInit_rabota.php';
+include_once DOCUMENT_ROOT . '/Search/lib/simpl/simple_html_dom.php';
+include_once DOCUMENT_ROOT . '/Search/general/ProcessingWithCity.php';
+
 class MainVacationPageParser_rabota extends MainVacationPageParser
 {
     private function linksParse($url)
@@ -17,30 +18,46 @@ class MainVacationPageParser_rabota extends MainVacationPageParser
 
         $processingWithCity = new ProcessingWithCity();
 
-        $fullLinksToJobs = array();
+        $fullLinksToJobDateAddCityAndTags = array();
         foreach ($html->find('table.vv tbody ') as $element) {
-            foreach($element->find('div[class=rua-g-clearfix] a.t')as $link) {
-                $partLinksToJob[] =  $link->href;
+
+            foreach ($element->find('div.tags') as $key => $link) {
+
+                foreach ($link->find('a') as $val) {
+                    if ($key != $check)
+                        $tags[$key] = array();
+
+                    $tags[$key][] = $val->innertext;
+                    $check = $key;
+
+                }
             }
-            foreach($html->find('div.dt') as $element){
+
+            foreach ($element->find('div[class=rua-g-clearfix] a.t') as $link) {
+                $partLinksToJob[] = $link->href;
+            }
+
+            foreach ($html->find('div.dt') as $element) {
                 $dateAdd[] = $element->innertext;
             }
         }
-        foreach($html->find('div[class=rua-g-clearfix] div.s')as $city) {
-//            echo $city->innertext;
+
+        foreach ($html->find('div[class=rua-g-clearfix] div.s') as $city) {
             $clearCity = $processingWithCity->parseCityFromStringRabota($city->innertext);
-            $cities[] =  $clearCity;
+            $cities[] = $clearCity;
 
         }
 
         if ($partLinksToJob != null && is_array($partLinksToJob)) {
-            foreach ($partLinksToJob as $key=>$linksPart) {
+            foreach ($partLinksToJob as $key => $linksPart) {
 
-                $fullLinksToJobs[] = array('linkToJob'=>'http://rabota.ua/' . $linksPart,'dateAdd'=>$dateAdd[$key],'city'=>$cities[$key]);
+                $fullLinksToJobDateAddCityAndTags[] = array('linkToJob' => 'http://rabota.ua/' . $linksPart,
+                    'dateAdd' => $dateAdd[$key],
+                    'city' => $cities[$key],
+                    'tags' => $tags[$key]);
             }
         }
-//        var_dump($fullLinksToJobs);
-        return $fullLinksToJobs;
+        return $fullLinksToJobDateAddCityAndTags;
     }
 
     function generateAllLinks($searchTag)
@@ -57,6 +74,7 @@ class MainVacationPageParser_rabota extends MainVacationPageParser
         foreach ($html->find('#beforeContentZone_vacancyList_ltCount') as $element) {
             preg_match("/\d+/", $element->innertext, $countOfVacancy);
         }
+
         $countOfVacancy = $countOfVacancy[0];
         $countOfPages = ceil($countOfVacancy / 20);
         for ($i = 1; $i <= $countOfPages; $i++) {
@@ -65,13 +83,12 @@ class MainVacationPageParser_rabota extends MainVacationPageParser
             } else {
                 $urlWithPageNumber = $url . "&pg=$i";
             }
-            $linksToJob = $this->linksParse($urlWithPageNumber);
-            if ($linksToJob != null && is_array($linksToJob))
-                $allLinksToJob = array_merge((array)$allLinksToJob, $linksToJob);
+            $linksToJobDateAddCityAndTags = $this->linksParse($urlWithPageNumber);
+            if ($linksToJobDateAddCityAndTags != null && is_array($linksToJobDateAddCityAndTags))
+                $allLinksToJobDateAddCityAndTags = array_merge((array)$allLinksToJobDateAddCityAndTags, $linksToJobDateAddCityAndTags);
         }
-        array_push($allLinksToJob,$searchTag);
-//        var_dump($linksToJob);
-        return $allLinksToJob;
+        array_push($allLinksToJobDateAddCityAndTags,$searchTag);
+        return $allLinksToJobDateAddCityAndTags;
 
     }
 }

@@ -2,7 +2,7 @@ window.onload = function () {
 
     document.getElementById('addFieldToSearch').onclick = addFields;
     document.getElementById('sendDataToSearch').onclick = getAndSendSearchData;
-
+addCity();
     if (document.getElementById('withCityOrNot') != null) {
         document.getElementById('withCityOrNot').onchange = function () {
             if (document.getElementById('city').style.display == 'none') {
@@ -43,7 +43,7 @@ window.onload = function () {
         td1.appendChild(input1);
         button.innerText = 'Добавление колонки для того чего быть не должно';
         button.setAttribute('id', 'addNotPresentedField');
-        button.style.width = '150px';
+        //button.style.width = '150px';
         td1.setAttribute('height', '50');
         td2.setAttribute('height', '50');
         addButtonAction();
@@ -88,10 +88,10 @@ window.onload = function () {
         function addOptionToSelect(data) {
             data = JSON.parse(data);
             for (var position in data) {
-                console.log(data[position]['town'])
+                console.log(data[position]['city'])
                 var option = document.createElement('option');
-                option.innerText = data[position]['town'];
-                option.setAttribute('value', data[position]['town'])
+                option.innerText = data[position]['city'];
+                option.setAttribute('value', data[position]['city'])
                 //var searchTown = document.getElementById('city')
                 city.appendChild(option);
             }
@@ -102,9 +102,9 @@ window.onload = function () {
             console.log(data.response);
             console.log(data);
         }
-
+        var site = window.location.search;
         if (document.getElementById('city').style.display != 'none') {
-            ajax('ajaxHandlers/searchQueryHandler.php?tag=' + searchTag,
+            ajax('ajaxHandlers/searchQueryHandler.php?tag=' + searchTag+'&site='+site,
                 addOptionToSelect,
                 true,
                 'GET')
@@ -166,7 +166,7 @@ window.onload = function () {
         for (var val in data) {
             //console.log(data[val]);
             //console.log(val);
-            var div = document.getElementById('search');
+            var div = document.getElementById('searchResult');
             var p = document.createElement('p');
             div.appendChild(p);
             //document.body.appendChild(div);
@@ -252,13 +252,13 @@ function ajax(url, callback, type, method, params, header) {
 }
 
 function waitingForResponse() {
-    var body = document.getElementById('search');
-    var children = body.childNodes;
+    var searchResult = document.getElementById('searchResult');
+    var children = searchResult.childNodes;
 
     while (children.length) {
-        body.removeChild(children[0]);
+        searchResult.removeChild(children[0]);
     }
-
+var waitingResult = document.createElement('div');
 
 }
 

@@ -5,7 +5,6 @@ class GenerateUrl{
         if ($city == null) {
             if ($searchTag != 'beginners') {
                 $url = 'http://jobs.dou.ua/vacancies/?search=' . $searchTag;
-//                echo 'i == beginners';
             } else {
                 $url = 'http://jobs.dou.ua/vacancies/?beginners';
             }
@@ -41,13 +40,21 @@ class GenerateUrl{
         return $url;
     }
 
-    public function generateUrlFirstPageStackoverflow($searchTag){
-        $url = 'http://careers.stackoverflow.com/jobs?searchTerm=' . $searchTag;
+    public function generateUrlFirstPageStackoverflow($city,$searchTag){
+        if($city == null) {
+            $url = 'http://careers.stackoverflow.com/jobs?searchTerm=' . $searchTag;
+        }else{
+            $url = 'http://careers.stackoverflow.com/jobs?searchTerm='.$searchTag.'&location='.$city;
+        }
         return $url;
     }
 
-    public function generateUrlLastPageStackoverflow($searchTag,$lastPageNumber){
-        $url = 'http://careers.stackoverflow.com/jobs?searchTerm=' . $searchTag. "&pg=$lastPageNumber";
+    public function generateUrlLastPageStackoverflow($city,$searchTag,$lastPageNumber){
+        if($city==null) {
+            $url = 'http://careers.stackoverflow.com/jobs?searchTerm=' . $searchTag . "&pg=$lastPageNumber";
+        }else{
+            $url = 'http://careers.stackoverflow.com/jobs?searchTerm='.$searchTag.'&location='.$city.'&pg='.$lastPageNumber;
+        }
         return $url;
     }
 

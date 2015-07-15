@@ -1,29 +1,28 @@
 <?php
 define("DOCUMENT_ROOT", $_SERVER['DOCUMENT_ROOT']);
-include_once DOCUMENT_ROOT.'/Search/abstractClass/ParseDataFromLinks.php';
+include_once DOCUMENT_ROOT . '/Search/abstractClass/ParseDataFromLinks.php';
 
 class ParseDataFromLinks_stackoverflow extends ParseDataFromLinks
 {
-    protected function processingReferences($linksToJobsDateAddArray)
+    protected function processingReferences($allLinksToJobDateAddAndTagsArray)
     {
-//        var_dump($linksToJobsDateAddArray);
-        $searchTag = array_pop($linksToJobsDateAddArray);
-        if (!empty($linksToJobsDateAddArray)) {
-            $linksToJobsLength = sizeof($linksToJobsDateAddArray);
+        if (!empty($allLinksToJobDateAddAndTagsArray)) {
+
+            $linksToJobsLength = sizeof($allLinksToJobDateAddAndTagsArray);
+
             for ($i = 0; $i < $linksToJobsLength; $i++) {
-                preg_match("/\/\d+\//", $linksToJobsDateAddArray[$i]['linkToJob'], $arrayOfVacancies);
+                preg_match("/\/\d+\//", $allLinksToJobDateAddAndTagsArray[$i]['linkToJob'], $arrayOfVacancies);
                 preg_match("/\d+/", $arrayOfVacancies[0], $arrayOfVacanciesId);
                 $idOfVacancies = $arrayOfVacanciesId[0];
-                $idVacancyLinksDateAddArray[] = array(
+                $idVacancyLinksDateAddAndTags[] = array(
                     'id_vacancies' => $idOfVacancies,
-                    'linksToJob' => $linksToJobsDateAddArray[$i]['linkToJob'],
-                    'dateAdd' => $linksToJobsDateAddArray[$i]['dateAdd'],
-                    'searchTag' => $searchTag
-//                    'city' => $linksToJobsDateAddArray[$i]['city']
+                    'linksToJob' => $allLinksToJobDateAddAndTagsArray[$i]['linkToJob'],
+                    'dateAdd' => $allLinksToJobDateAddAndTagsArray[$i]['dateAdd'],
+                    'tags' => $allLinksToJobDateAddAndTagsArray[$i]['tags']
+
                 );
             }
         }
-//        var_dump($idVacancyLinksDateAddArray);
-        return $idVacancyLinksDateAddArray;
+        return $idVacancyLinksDateAddAndTags;
     }
 }

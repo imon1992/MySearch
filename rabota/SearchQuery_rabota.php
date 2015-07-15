@@ -1,29 +1,27 @@
 <?php
 include_once '../lib/simpl/simple_html_dom.php';
 include_once '../abstractClass/SearchQuery.php';
-//include_once 'ProcessingDataArrayWithText_dou.php';
-//include_once 'MainVacationPageParser_dou.php';
-//include_once 'CacheGetter_dou.php';
-//include_once 'ParseDataFromLinks_dou.php';
 include_once '../general/ProcessingVacanciesInfo.php';
 include_once 'ProcessingWithDate_rabota.php';
 include_once '../general/ProcessingWithCity.php';
 
 
-class SearchQuery_rabota extends SearchQuery{
-    protected function search($searchTagCityAndDate, $searchObject){
-        $processingWithCity = new ProcessingWithCity();
-        $city = $processingWithCity->generateCity($searchTagCityAndDate);
+class SearchQuery_rabota extends SearchQuery
+{
+    protected function search($searchTagCityAndDate, $searchObject)
+    {
+//        $processingWithCity = new ProcessingWithCity();
+//        $city = $processingWithCity->generateCity($searchTagCityAndDate);
 
         $generateDateParams = new ProcessingWithDate_rabota();
         $dateFromToBy = $generateDateParams->generateDateInfo($searchTagCityAndDate);
 
-        if($dateFromToBy['error']){
+        if ($dateFromToBy['error']) {
             return $dateFromToBy['errorText'];
         }
 
         $processingVacanciesInfo = new ProcessingVacanciesInfo_dou();
-        $vacanciesMap = $processingVacanciesInfo->getVacanciesInfo($dateFromToBy,__CLASS__,$city);
+        $vacanciesMap = $processingVacanciesInfo->getVacanciesInfo($dateFromToBy, __CLASS__, $searchTagCityAndDate);
 
         return parent::findKeyWords($vacanciesMap, $searchObject);
     }

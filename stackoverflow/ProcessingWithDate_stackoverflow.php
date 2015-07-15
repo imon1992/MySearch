@@ -35,7 +35,6 @@ class ProcessingWithDate_stackoverflow{
             array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'),
             $date_elements[1]);
         $date = $date_elements[0] . ' ' . $month  . ' ' . $date_elements[2];
-//        var_dump($date);
         $date = trim($date);
         return date("Y.m.d", strtotime($date));
     }
@@ -58,23 +57,17 @@ class ProcessingWithDate_stackoverflow{
 
     public function generateDateInfo($searchTagCityAndDate)
     {
-//        var_dump($searchTagCityAndDate);
-        $processingWithCity = new ProcessingWithCity();
-        $city = $processingWithCity->generateCity($searchTagCityAndDate);
-//var_dump($city);
+
+        $city = $searchTagCityAndDate->city;
         $searchTag = $searchTagCityAndDate->searchTag;
-//        var_dump($searchTag);
-//var_dump($searchTagCityAndDate);
+
         if ($searchTagCityAndDate->date == null) {
             $by = date("Y.m.d");
-            $from = $this->getDateLastAddition($searchTag);
+            $from = $this->getDateLastAddition($city,$searchTag);
             $from = $this->newFormatDate($from);
-//            var_dump($from);
         }else{
-//            $str = '05-12-2000';
             $datePartBy = explode('-',$searchTagCityAndDate->date->by);
             $datePartFrom = explode('-',$searchTagCityAndDate->date->from);
-//            var_dump(checkdate($datePart[1],$datePart[0],$datePart[2]));
             if(checkdate($datePartBy[1],$datePartBy[0],$datePartBy[2])&&checkdate($datePartFrom[1],$datePartFrom[0],$datePartFrom[2])){
                 $by = $this->newFormatDateMonthAsNumber($searchTagCityAndDate->date->by);
                 $from = $this->newFormatDateMonthAsNumber($searchTagCityAndDate->date->from);
@@ -82,23 +75,17 @@ class ProcessingWithDate_stackoverflow{
                 return ['errorText'=>'Неверный формат даты','error'=>true];
             }
         }
-//        var_dump($from);
-//        var_dump($by);
-//        var_dump($from);
         $dateInfo = ['by'=> $by,'from'=>$from];
-//        var_dump($dateInfo);
         return $dateInfo;
     }
 
-    function getDateLastAddition($searchTag)
+    function getDateLastAddition($city,$searchTag)
     {
-//        var_dump()
         $generateUrl = new GenerateUrl();
-        $url = $generateUrl->generateUrlFirstPageStackoverflow($searchTag);
+        $url = $generateUrl->generateUrlFirstPageStackoverflow($city,$searchTag);
 
         $curlInit = new CurlInit_stackoverflow();
         $curlResult = $curlInit->getCurlInit($url);
-//var_dump($url);
         $html = new simple_html_dom();
         $html->load($curlResult);
 
@@ -108,15 +95,11 @@ class ProcessingWithDate_stackoverflow{
 
         preg_match("/\d+/", $countOfVacationsWithExcessText, $countOfVacationsArray);
         $countOfVacations = $countOfVacationsArray[0];
-//        var_dump($countOfVacations);
         $countOfPages = ceil($countOfVacations / 25);
-//var_dump($countOfPages);
-        $url = $generateUrl->generateUrlLastPageStackoverflow($searchTag,$countOfPages);
-//var_dump($countOfVacations);
+        $url = $generateUrl->generateUrlLastPageStackoverflow($city,$searchTag,$countOfPages);
         $curlResult = $curlInit->getCurlInit($url);
 
         $html->load($curlResult);
-//echo $html;
         foreach ($html->find('div[class=listResults -jobs list jobs]') as $element) {
 
             foreach ($element->find('div.listResults div.tags') as $tagsName) {
@@ -125,13 +108,8 @@ class ProcessingWithDate_stackoverflow{
 
         }
         $dateLastVacancy = array_pop($dateAddAllVacationOnPage);
-//        $dateLastVacancy = $this->newFormatDate($dateLastVacancy);
-//        var_dump($dateLastVacancy);
 
         return $dateLastVacancy;
     }
 
 }
-
-//$c = new GenerateDateInfo_stackoverflow();
-//$c->getDateLastAddition('php');

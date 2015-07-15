@@ -2,44 +2,60 @@
 
 include_once '../BD/WorkWithDb.php';
 include_once '../general/ProcessingWithTableNameAndFields.php';
-//include_once '../abstractClass/ProcessingVacanciesInfo';
-class ProcessingVacanciesInfo_dou {
-    public function getVacanciesInfo($dateInfo,$className,$searchTagCityAndDate){
-        var_dump($searchTagCityAndDate);
+
+class ProcessingVacanciesInfo_dou
+{
+    public function getVacanciesInfo($dateInfo, $className, $searchTagCityAndDate)
+    {
         $city = $searchTagCityAndDate->city;
-        var_dump($city);
         $searchTag = $searchTagCityAndDate->searchTag;
-        var_dump($searchTag);
         $from = $dateInfo['from'];
         $by = $dateInfo['by'];
 
         $processingWithTableNameAndFields = new ProcessingWithTableNameAndField();
 
-        $tableName = $processingWithTableNameAndFields->generateVacancyInfoTableName($className);
-        $tableFields = $processingWithTableNameAndFields->generateTableFieldsIdVacancyAndText($tableName);
-        $tableFieldIdVacancy = $tableFields['fieldIdVacancy'];
-        $tableFieldTextVacancy = $tableFields['fieldTextVacancy'];
+        $tableNameVacancyInfo = $processingWithTableNameAndFields->generateVacancyInfoTableName($className);
+        $tableNameCities = $processingWithTableNameAndFields->generateCitiesTableName($className);
+        $tableNameTags = $processingWithTableNameAndFields->generateTagsTableName($className);
+
+        $tableFieldsVacancyInfo = $processingWithTableNameAndFields->generateTableFieldsIdVacancyAndText($tableNameVacancyInfo);
+        $tableFieldIdVacancyVacancyInfo = $tableFieldsVacancyInfo['fieldIdVacancy'];
+        $tableFieldTextVacancyVacancyInfo = $tableFieldsVacancyInfo['fieldTextVacancy'];
+        $tableFieldDateAddVacancyInfo = $processingWithTableNameAndFields->generateTableFieldIDateAddVacancyInfo($tableNameVacancyInfo);
+
+        $tableFieldIdVacancyCities = $processingWithTableNameAndFields->generateTableFieldIdVacancy($tableNameCities);
+        $tableFieldCityCities = $processingWithTableNameAndFields->generateTableFieldCityCities($tableNameCities);
+
+        $tableFieldIdVacancyTags = $processingWithTableNameAndFields->generateTableFieldIdVacancy($tableNameTags);
+        $tableFieldTagTags = $processingWithTableNameAndFields->generateTableFieldTagTags($tableNameTags);
+
         $db = WorkWithDb::getInstance();
 
-        if($city != null) {
-//            var_dump($city);
-            if($city == 'удаленная работа' || $city == 'работа за рубежом') {
-                $vacanciesInfo = $db->getVacancyInfoByDateWithCityLike($from, $by, $tableName, $city,$tableFieldIdVacancy,$tableFieldTextVacancy,$searchTag);
-            }else{
-                $vacanciesInfo = $db->getVacancyInfoByDateWithCity($from, $by, $tableName, $city,$tableFieldIdVacancy,$tableFieldTextVacancy,$searchTag);
+        if ($city != null) {
+            $wordCount = str_word_count($city);
+            if ($wordCount == 1) {
+                $vacanciesInfo = $db->getVacancyInfoByDateWithCity($from, $by, $tableNameVacancyInfo, $city, $tableFieldIdVacancyVacancyInfo, $tableFieldDateAddVacancyInfo, $tableFieldTextVacancyVacancyInfo, $searchTag,
+                    $tableNameCities, $tableFieldIdVacancyCities, $tableFieldCityCities, $tableNameTags, $tableFieldIdVacancyTags,
+                    $tableFieldTagTags);
+            } else {
+                $vacanciesInfo = $db->getVacancyInfoByDateWithCityLike($from, $by, $tableNameVacancyInfo, $city, $tableFieldIdVacancyVacancyInfo, $tableFieldDateAddVacancyInfo, $tableFieldTextVacancyVacancyInfo, $searchTag,
+                    $tableNameCities, $tableFieldIdVacancyCities, $tableFieldCityCities, $tableNameTags, $tableFieldIdVacancyTags,
+                    $tableFieldTagTags);
             }
-        }else{
-            $vacanciesInfo = $db->getVacancyInfoByDate($from, $by, $tableName,$tableFieldIdVacancy,$tableFieldTextVacancy,$searchTag);
+        } else {
+            $vacanciesInfo = $db->getVacancyInfoByDate($from, $by, $tableNameVacancyInfo, $tableFieldIdVacancyVacancyInfo, $tableFieldDateAddVacancyInfo,
+                $tableFieldTextVacancyVacancyInfo, $searchTag, $tableNameTags, $tableFieldIdVacancyTags,
+                $tableFieldTagTags);
         }
-//var_dump($vacanciesInfo);
         $vacanciesMap = $this->createMap($vacanciesInfo);
         return $vacanciesMap;
     }
 
-     public function createMap($dbAnswer){
-        foreach($dbAnswer as $vacancyInfo){
-            $vacancyMap[$vacancyInfo['id_vacancies']] = ['text'=>$vacancyInfo['text_vacancies']];
+    public function createMap($dbAnswer)
+    {
+        foreach ($dbAnswer as $vacancyInfo) {
+            $vacancyMap[$vacancyInfo['id_vacancies']] = ['text' => $vacancyInfo['text_vacancies']];
         }
-         return $vacancyMap;
+        return $vacancyMap;
     }
 }

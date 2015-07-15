@@ -22,11 +22,7 @@ class UpdateDb_stackoverflow
         $idAndCompaniesAndMayNotBeCompleteTextArray = $cacheGetter->getMapWithText($idAndCompanyArray);
 
         $processingDataArrayWithText = new ProcessingDataArrayWithText_stackoverflow();
-        $fullMapArray = $processingDataArrayWithText->getTheMissingText($idAndCompaniesAndMayNotBeCompleteTextArray);
+        $processingDataArrayWithText->getTheMissingText($idAndCompaniesAndMayNotBeCompleteTextArray);
 
-echo 'Exelent';
     }
 }
-
-//$c = new SearchQuery_stackoverflowAddToDb();
-//$c->updateDb('symfony2');

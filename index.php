@@ -1,74 +1,34 @@
 <?php
 header("Content-Type: text/html; charset=utf-8");
-?>
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="ru">
+ ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="stylesheet" type="text/css" href="http://localhost/Search/style1.css"/>
     <script src="getHmlHttpRequest.js" type="text/javascript"></script>
     <script src="MySearch.js" type="text/javascript"></script>
-    <!--    --><?// if ($_GET['dou'] !== null) { ?>
-    <!--        <script src="dou.js" type="text/javascript"></script>-->
-    <!--    --><?//
-    //    }
-    //    if ($_GET['stackoverflow'] !== null) {
-    //        ?>
-    <!--        <script src="stackoverflow.js" type="text/javascript"></script>-->
-    <!--    --><?//
-    //    }
-    //    ?>
-    <link rel="stylesheet" type="text/css" href="http://localhost/Search/css.css"/>
-    <title>My Search</title>
+    <script src="calendar.js" type="text/javascript"></script>
+    <title>VacationSkillSearcher</title>
 </head>
 <body>
-<div id="wrapper">
-    <table width="960" cellpadding="0" cellspacing="0" align="center" id="maintable">
-        <tr>
-            <td class="maintable-content">
-                <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center">
-                    <tr>
-                        <td class="content-row">
-                            <table border="0" width="100%" cellpadding="0" cellspacing="0" align="center">
-                                <tr>
-                                    <td class="navbar-row" align="center">
-                                        <table cellspacing="0" width="100%" align="center" class="navbar-row-table">
-                                            <tr align="center" class="vbmenu_dark">
-
-
-                                                <td width="100%">&nbsp;</td>
-
-                                                <td class="vbmenu_control"><a href="http://localhost/Search/index1.php?dou">Поиск на DOU</a></td>
-
-                                                <td id="navbar_search" class="vbmenu_control"><a href="http://localhost/Search/index1.php?stackoverflow">Поиск на stackoverflow</a>
-                                                </td>
-                                            <tr>
-                                        </table>
-                                    </td>
-
-                                </tr>
-                            </table>
-                        </td>
-                    </tr>
-                </table>
-
+<div id="head">
+    <h1>VacationSkillSearcher</h1>
 </div>
-
-
-<div id="search" align="center">
+<div id="menu">
+    <div><a href="http://localhost/Search/newStyle.php?rabota">Поиск на rabota</a></div>
+    <div><a href="http://localhost/Search/newStyle.php?dou">Поиск на DOU</a></div>
+    <div><a href="http://localhost/Search/newStyle.php?stackoverflow">Поиск на stackoverflow</a></div>
+</div>
+<div id="content">
+<!--    <h2>Главная</h2>-->
     <?
-    if($_GET['dou']!==null){
-        include_once 'html/douSearchTable.html';
-    }
-    if($_GET['stackoverflow']!==null){
-        include_once 'html/stackoverflowSearchtable.html';
-    }
+    include_once 'html/template/searchTable.php';
+
     ?>
 </div>
-
-
-
-
+<!--<div id="foot">-->
+<!--</div>-->
 </body>
 </html>
-

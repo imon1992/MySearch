@@ -33,27 +33,27 @@ class GenerateDataParams_dou
             array('January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'),
             $date_elements[1]);
         $date = $date_elements[0] . ' ' . $month  . ' ' . $date_elements[2];
-//        var_dump($date);
+
         $date = trim($date);
         return date("Y.m.d", strtotime($date));
     }
 
     public function generateDateInfo($searchTagCityAndDate)
     {
-//        $processingWithCity = new ProcessingWithCity();
+
         $city = $searchTagCityAndDate->city;
 
         $searchTag = $searchTagCityAndDate->searchTag;
-//var_dump($searchTagCityAndDate);
+
         if ($searchTagCityAndDate->date == null) {
             $by = date("Y.m.d");
             $from = $this->getDateLastAddition($city,$searchTag);
             $from = $this->newFormatDateAsRussianMonth($from);
-//            var_dump($from);
+
         }else{
             $datePartBy = explode('-',$searchTagCityAndDate->date->by);
             $datePartFrom = explode('-',$searchTagCityAndDate->date->from);
-//            var_dump(checkdate($datePart[1],$datePart[0],$datePart[2]));
+
             if(checkdate($datePartBy[1],$datePartBy[0],$datePartBy[2])&&checkdate($datePartFrom[1],$datePartFrom[0],$datePartFrom[2])){
                 $by = $this->newFormatDateMonthAsNumber($searchTagCityAndDate->date->by);
                 $from = $this->newFormatDateMonthAsNumber($searchTagCityAndDate->date->from);
@@ -61,9 +61,7 @@ class GenerateDataParams_dou
                 return ['errorText'=>'Неверный формат даты','error'=>true];
             }
         }
-//        var_dump($from);
-//        var_dump($by);
-//        var_dump($from);
+
         $dateInfo = ['by'=> $by,'from'=>$from];
         return $dateInfo;
     }
@@ -74,7 +72,7 @@ class GenerateDataParams_dou
         $url = $generateUrl->generateUrlFirstPageDou($searchTag,$city);
         $curlInit = new CurlInit_Dou();
         $curlResult = $curlInit->getCurlInit($url);
-//var_dump($url);
+
         $html = new simple_html_dom();
         $html->load($curlResult);
 
@@ -84,7 +82,7 @@ class GenerateDataParams_dou
 
         preg_match("/\d+/", $countOfVacationsWithExcessText, $countOfVacationsArray);
         $countOfVacations = $countOfVacationsArray[0];
-//var_dump($countOfVacations);
+
         if($countOfVacations > 20) {
             $url = $generateUrl->generateUrlNextPart($city, $searchTag);
         $curlResult = $curlInit->getCurlInit($url-1);
@@ -92,9 +90,9 @@ class GenerateDataParams_dou
             $curlResult = $curlInit->getCurlInit($url);
         }
         preg_match_all("/http\:\/\/jobs\.dou\.ua\/companies\/([\w-]+)\/vacancies\/\d+\//", $curlResult, $lastLinkToJob);
-//var_dump($lastLinkToJob);
+
         $url = array_pop($lastLinkToJob[0]);
-//var_dump($url);
+
         $curlResult = $curlInit->getCurlInit($url);
 
         $html->load($curlResult);
@@ -102,13 +100,9 @@ class GenerateDataParams_dou
         $date = $html->find('div[class=date]');
 
         $dateLastVacancy = $date[0]->innertext;
-//        var_dump($dateLastVacancy);
+
         $dateLastVacancy = trim($dateLastVacancy);
         return $dateLastVacancy;
     }
 }
 
-//$c = new GenerateDataParams_dou();
-////$x = $c->generateDateIfEmpty('');
-//$x = $c->newFormatDateMonthAsNumber('09-07-2015');
-//echo $x;

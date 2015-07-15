@@ -1,38 +1,48 @@
 <?php
 define("DOCUMENT_ROOT", $_SERVER['DOCUMENT_ROOT']);
 
-require_once DOCUMENT_ROOT.'/Search/abstractClass/CacheGetter.php';
-include_once DOCUMENT_ROOT.'/Search/BD/WorkWithDB.DOU.class.php';
+require_once DOCUMENT_ROOT . '/Search/abstractClass/CacheGetter.php';
+include_once DOCUMENT_ROOT . '/Search/BD/WorkWithDB.php';
 
 class CacheGetter_dou extends CacheGetter
 {
-    protected function formationMapWithText($idAndCompanyArray)
+    protected function formationMapWithText($vacancyIdTagAndCompanyArray)
     {
-//        var_dump($idAndCompanyArray);
-//        $searchTag = array_pop($idAndCompanyArray);
-        $arrayOfId = parent::getAllIdOfVacancies($idAndCompanyArray);
-        foreach ($idAndCompanyArray as $key => $idAndCompany) {
+        $arrayOfId = parent::getAllIdOfVacancies($vacancyIdTagAndCompanyArray);
+
+        $db = WorkWithDB::getInstance();
+        $processingWithTableNameAndField = new ProcessingWithTableNameAndField();
+
+        $tableNameVacancyInfo = $processingWithTableNameAndField->generateVacancyInfoTableName(__CLASS__);
+        $tableFieldsVacancyIdAndText = $processingWithTableNameAndField->generateTableFieldsIdVacancyAndText($tableNameVacancyInfo);
+
+        $idVacancyField = $tableFieldsVacancyIdAndText['fieldIdVacancy'];
+        $textVacancyField = $tableFieldsVacancyIdAndText['fieldTextVacancy'];
+
+        foreach ($vacancyIdTagAndCompanyArray as $key => $idAndCompany) {
             $vacancyMap[$idAndCompany['id_vacancies']] = array('id_vacancies' => $idAndCompany['id_vacancies'],
-                'searchTag' =>$idAndCompanyArray [$key]['searchTag'],
+                'company' => $vacancyIdTagAndCompanyArray [$key]['company'],
+                'searchTag' => $vacancyIdTagAndCompanyArray [$key]['searchTag'],
                 'text' => null);
         }
-        $db = WorkWithDB::getInstance();
-        $dbAnswer = $db->giveData($arrayOfId);
+
+        $dbAnswer = $db->getVacancyIdAndText($arrayOfId, $tableNameVacancyInfo, $idVacancyField, $textVacancyField);
+
         foreach ($dbAnswer as $key => $textAndId) {
             $dbAnswerMap[$textAndId['id_vacancies']] = array('id_vacancies' => $textAndId['id_vacancies'],
-                'searchTag' =>$idAndCompanyArray [$key]['searchTag'],
                 'text' => $textAndId['text_vacancies']);
         }
-        foreach ($vacancyMap as $vacancyId => $vacancyIdAndCompany) {
+
+        foreach ($vacancyMap as $vacancyId => $vacancyCompanyAdnTag) {
             if (null != $dbAnswerMap[$vacancyId]) {
-continue;
+                continue;
             } else {
-                $vacancyIdAndCompanyAndTextMap[$vacancyId] = array('id_vacancies' => $vacancyId,
-                    'searchTag' => $vacancyIdAndCompany['searchTag'],
+                $vacancyIdCompanyTagAndTextMap[$vacancyId] = array('id_vacancies' => $vacancyId,
+                    'searchTag' => $vacancyCompanyAdnTag['searchTag'],
+                    'company' => $vacancyCompanyAdnTag['company'],
                     'text' => null);
             }
         }
-//        var_dump()
-        return $vacancyIdAndCompanyAndTextMap;
+        return $vacancyIdCompanyTagAndTextMap;
     }
 }
