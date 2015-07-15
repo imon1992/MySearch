@@ -20,7 +20,7 @@ class SearchQuery_rabota extends SearchQuery
             return $dateFromToBy['errorText'];
         }
 
-        $processingVacanciesInfo = new ProcessingVacanciesInfo_dou();
+        $processingVacanciesInfo = new ProcessingVacanciesInfo();
         $vacanciesMap = $processingVacanciesInfo->getVacanciesInfo($dateFromToBy, __CLASS__, $searchTagCityAndDate);
 
         return parent::findKeyWords($vacanciesMap, $searchObject);
