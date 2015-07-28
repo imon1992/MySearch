@@ -10,13 +10,10 @@ class SearchQuery_rabota extends SearchQuery
 {
     protected function search($searchTagCityAndDate, $searchObject)
     {
-//        $processingWithCity = new ProcessingWithCity();
-//        $city = $processingWithCity->generateCity($searchTagCityAndDate);
-
         $generateDateParams = new ProcessingWithDate_rabota();
         $dateFromToBy = $generateDateParams->generateDateInfo($searchTagCityAndDate);
 
-        if ($dateFromToBy['error']) {
+        if (array_key_exists('error',$dateFromToBy)) {
             return $dateFromToBy['errorText'];
         }
 

@@ -1,14 +1,16 @@
 <?php
-define("DOCUMENT_ROOT", $_SERVER['DOCUMENT_ROOT']);
-include_once DOCUMENT_ROOT . '/Search/lib/simpl/simple_html_dom.php';
+//define("$_SERVER['DOCUMENT_ROOT']", $_SERVER['$_SERVER['DOCUMENT_ROOT']']);
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/lib/simpl/simple_html_dom.php';
 include_once 'CurlInit_rabota.php';
-include_once DOCUMENT_ROOT . '/Search/general/GenerateUrl.php';
-include_once DOCUMENT_ROOT . '/Search/general/ProcessingWithCity.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/general/GenerateUrl.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/general/ProcessingWithCity.php';
 
 class ProcessingWithDate_rabota
 {
     function dateInfo($timeSpan)
     {
+        $daysOrWeeks ='';
+        $timeInterval='';
         if (strpos($timeSpan, 'часов')) {
             $timeInterval = 'now';
         } elseif (strpos($timeSpan, 'день')) {
@@ -53,6 +55,7 @@ class ProcessingWithDate_rabota
 
     function newFormatDate($timeSpan)
     {
+
         $dateInfo = $this->dateInfo($timeSpan);
         $timeInterval = $dateInfo[0];
         if ($timeInterval != 'now') {
@@ -71,7 +74,7 @@ class ProcessingWithDate_rabota
     {
         $searchTag = $searchTagCityAndDate->searchTag;
 
-        if ($searchTagCityAndDate->date == null) {
+        if (!property_exists($searchTagCityAndDate,'date')) {
             $by = date("Y.m.d");
             $from = $this->getDateLastAddition($searchTag);
             $from = $this->newFormatDate($from);
@@ -120,12 +123,11 @@ class ProcessingWithDate_rabota
         $html->load($curlResult);
 
         foreach ($html->find('table.vv tbody ') as $element) {
-            foreach ($html->find('div.dt') as $element) {
-                $dateAddAllVacationOnPage[] = $element->innertext;
+            foreach ($element->find('div.dt') as $date) {
+                $dateAddAllVacationOnPage[] = $date->innertext;
             }
         }
         $dateLastVacancy = array_pop($dateAddAllVacationOnPage);
-
         return $dateLastVacancy;
     }
 }

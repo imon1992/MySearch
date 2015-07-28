@@ -9,17 +9,14 @@ class SearchQuery_stackoverflow extends SearchQuery
 {
     protected function search($searchTagCityAndDate, $searchObject)
     {
-//        $processingWithCity = new ProcessingWithCity();
-//        $city = $processingWithCity->generateCity($searchTagCityAndDate);
-
         $generateDateParams = new ProcessingWithDate_stackoverflow();
         $dateFromToBy = $generateDateParams->generateDateInfo($searchTagCityAndDate);
 
-        if($dateFromToBy['error']){
+        if ($dateFromToBy['error']) {
             return $dateFromToBy['errorText'];
         }
         $processingVacanciesInfo = new ProcessingVacanciesInfo();
-        $vacanciesMap = $processingVacanciesInfo->getVacanciesInfo($dateFromToBy,__CLASS__,$searchTagCityAndDate);
+        $vacanciesMap = $processingVacanciesInfo->getVacanciesInfo($dateFromToBy, __CLASS__, $searchTagCityAndDate);
 
         return parent::findKeyWords($vacanciesMap, $searchObject);
     }

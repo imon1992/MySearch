@@ -11,6 +11,7 @@ abstract class SearchQuery
 
     protected function findKeyWords($fullMapArray, $searchObject)
     {
+                $searchResultMap = array();
         foreach ($fullMapArray as $idAndCompanyAndText) {
             foreach ($searchObject as $searchStringObject) {
                 if ($searchStringObject->search !== null) {
@@ -34,7 +35,7 @@ abstract class SearchQuery
     {
         foreach ($keyArrays[0] as $key => $data) {
             $lowSearchString = $keyArrays[0]->$key;
-            if (preg_match("/\b($lowSearchString)\b/i", $idAndCompanyAndText)) {
+            if (preg_match("/$lowSearchString\b/i", $idAndCompanyAndText)) {
                 return true;
             }
         }
@@ -43,7 +44,7 @@ abstract class SearchQuery
 
     protected function insertKeyWord($searchResultMap, $searchString)
     {
-        if (null != $searchResultMap[$searchString]) {
+        if (null != $this->checkKey($searchResultMap,$searchString)) {
             $searchResultMap[$searchString]++;
         } else {
             $searchResultMap[$searchString] = 1;
@@ -59,6 +60,11 @@ abstract class SearchQuery
             }
         }
         return $searchResultMap;
+    }
+
+    function checkKey($array, $key)
+    {
+        return array_key_exists($key, $array) ? $array[$key] : null;
     }
 
 }

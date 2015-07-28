@@ -1,8 +1,8 @@
 <?php
-define("DOCUMENT_ROOT", $_SERVER['DOCUMENT_ROOT']);
+////define("$_SERVER['DOCUMENT_ROOT']", $_SERVER['$_SERVER['DOCUMENT_ROOT']']);
 
-require_once DOCUMENT_ROOT . '/Search/abstractClass/CacheGetter.php';
-include_once DOCUMENT_ROOT . '/Search/BD/WorkWithDB.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/Search/abstractClass/CacheGetter.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/BD/WorkWithDB.php';
 
 class CacheGetter_dou extends CacheGetter
 {
@@ -27,14 +27,14 @@ class CacheGetter_dou extends CacheGetter
         }
 
         $dbAnswer = $db->getVacancyIdAndText($arrayOfId, $tableNameVacancyInfo, $idVacancyField, $textVacancyField);
-
+        $dbAnswerMap=[];
         foreach ($dbAnswer as $key => $textAndId) {
             $dbAnswerMap[$textAndId['id_vacancies']] = array('id_vacancies' => $textAndId['id_vacancies'],
                 'text' => $textAndId['text_vacancies']);
         }
 
         foreach ($vacancyMap as $vacancyId => $vacancyCompanyAdnTag) {
-            if (null != $dbAnswerMap[$vacancyId]) {
+            if (null != $this->checkKey($dbAnswerMap,$vacancyId)) {
                 continue;
             } else {
                 $vacancyIdCompanyTagAndTextMap[$vacancyId] = array('id_vacancies' => $vacancyId,
@@ -44,5 +44,8 @@ class CacheGetter_dou extends CacheGetter
             }
         }
         return $vacancyIdCompanyTagAndTextMap;
+    }
+    function checkKey($array,$key){
+        return array_key_exists($key, $array) ? $array[$key]: null;
     }
 }

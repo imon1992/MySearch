@@ -1,11 +1,11 @@
 <?php
-define("DOCUMENT_ROOT", $_SERVER['DOCUMENT_ROOT']);
-include_once DOCUMENT_ROOT . '/Search/BD/WorkWithDB.php';
-include_once DOCUMENT_ROOT . '/Search/abstractClass/ProcessingDataArrayWithText.php';
-include_once DOCUMENT_ROOT . '/Search/rabota/CurlInit_rabota.php';
-include_once DOCUMENT_ROOT . '/Search/lib/simpl/simple_html_dom.php';
-include_once DOCUMENT_ROOT . '/Search/rabota/ProcessingWithDate_rabota.php';
-include_once DOCUMENT_ROOT . '/Search/general/ProcessingWithTableNameAndFields.php';
+
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/BD/WorkWithDB.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/abstractClass/ProcessingDataArrayWithText.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/rabota/CurlInit_rabota.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/lib/simpl/simple_html_dom.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/rabota/ProcessingWithDate_rabota.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/general/ProcessingWithTableNameAndFields.php';
 
 class ProcessingDataArrayWithText_rabota extends ProcessingDataArrayWithText
 {
@@ -23,10 +23,10 @@ class ProcessingDataArrayWithText_rabota extends ProcessingDataArrayWithText
             foreach ($idAndLinksAndMayNotBeCompleteTextArray as $vacancyId => $idAndTextAndLinksMap) {
 
                 if ($idAndTextAndLinksMap['text'] == null) {
-                    $searchTag = $idAndTextAndLinksMap['searchTag'];
-                    $dateAdd = $generateDateInfo->newFormatDate($idAndTextAndLinksMap['dateAdd']);
 
+                    $searchTag = $idAndTextAndLinksMap['searchTag'];
                     $city = $idAndTextAndLinksMap['city'];
+                    $dateAdd = $generateDateInfo->newFormatDate($idAndTextAndLinksMap['dateAdd']);
 
                     $tags = $idAndTextAndLinksMap['tags'];
                     if ($tags == null) {

@@ -13,14 +13,18 @@
     </div>
     <p>В каком разделе ищем</p>
     <?
-    if($_GET['dou']!==null){
+    if(checkKey($_GET, 'dou')!==null){
         include_once 'html/douSearchTable.html';
     }
-    if($_GET['stackoverflow']!==null){
+    if(checkKey($_GET, 'stackoverflow')!==null){
         include_once 'html/stackoverflowSearchTable.html';
     }
-    if($_GET['rabota']!==null){
+    if(checkKey($_GET, 'rabota')!==null){
         include_once 'html/rabotaSearchTable.html';
+    }
+    function checkKey($array, $key)
+    {
+        return array_key_exists($key, $array) ? $array[$key] : null;
     }
     ?>
     <div id="city">

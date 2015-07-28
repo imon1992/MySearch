@@ -1,8 +1,7 @@
 <?php
-define("DOCUMENT_ROOT", $_SERVER['DOCUMENT_ROOT']);
 
-include_once DOCUMENT_ROOT.'/Search/lib/simpl/simple_html_dom.php';
-include_once DOCUMENT_ROOT.'/Search/abstractClass/SearchQuery.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/Search/lib/simpl/simple_html_dom.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/Search/abstractClass/SearchQuery.php';
 include_once 'ProcessingDataArrayWithText_dou.php';
 include_once 'MainVacationPageParser_dou.php';
 include_once 'CacheGetter_dou.php';

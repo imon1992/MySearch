@@ -1,6 +1,5 @@
 <?php
-define("DOCUMENT_ROOT", $_SERVER['DOCUMENT_ROOT']);
-include_once DOCUMENT_ROOT . '/Search/abstractClass/ParseDataFromLinks.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/abstractClass/ParseDataFromLinks.php';
 
 class ParseDataFromLinks_stackoverflow extends ParseDataFromLinks
 {
@@ -8,8 +7,8 @@ class ParseDataFromLinks_stackoverflow extends ParseDataFromLinks
     {
         if (!empty($allLinksToJobDateAddAndTagsArray)) {
 
+            $searchTag = array_pop($allLinksToJobDateAddAndTagsArray);
             $linksToJobsLength = sizeof($allLinksToJobDateAddAndTagsArray);
-
             for ($i = 0; $i < $linksToJobsLength; $i++) {
                 preg_match("/\/\d+\//", $allLinksToJobDateAddAndTagsArray[$i]['linkToJob'], $arrayOfVacancies);
                 preg_match("/\d+/", $arrayOfVacancies[0], $arrayOfVacanciesId);
@@ -18,7 +17,8 @@ class ParseDataFromLinks_stackoverflow extends ParseDataFromLinks
                     'id_vacancies' => $idOfVacancies,
                     'linksToJob' => $allLinksToJobDateAddAndTagsArray[$i]['linkToJob'],
                     'dateAdd' => $allLinksToJobDateAddAndTagsArray[$i]['dateAdd'],
-                    'tags' => $allLinksToJobDateAddAndTagsArray[$i]['tags']
+                    'tags' => $allLinksToJobDateAddAndTagsArray[$i]['tags'],
+                    'searchTag' => $searchTag
 
                 );
             }

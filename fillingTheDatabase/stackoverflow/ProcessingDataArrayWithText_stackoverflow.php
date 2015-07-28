@@ -1,13 +1,12 @@
 <?php
-define("DOCUMENT_ROOT", $_SERVER['DOCUMENT_ROOT']);
-include_once DOCUMENT_ROOT . '/Search/BD/WorkWithDB.php';
-include_once DOCUMENT_ROOT . '/Search/abstractClass/ProcessingDataArrayWithText.php';
-include_once DOCUMENT_ROOT . '/Search/stackoverflow/ProcessingWithDate_stackoverflow.php';
-//include_once '../lib/simpl/simple_html_dom.php';
-include_once DOCUMENT_ROOT . '/Search/general/ProcessingWithCity.php';
-include_once DOCUMENT_ROOT . '/Search/general/ProcessingWithTableNameAndFields.php';
 
-//include_once DOCUMENT_ROOT.'/Search/general/ProcessingWithCity.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/BD/WorkWithDB.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/abstractClass/ProcessingDataArrayWithText.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/stackoverflow/ProcessingWithDate_stackoverflow.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/general/ProcessingWithCity.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/general/ProcessingWithTableNameAndFields.php';
+
+
 class ProcessingDataArrayWithText_stackoverflow extends ProcessingDataArrayWithText
 {
     protected function takeTheMissingText($idAndLinksAndMayNotBeCompleteTextArray)
@@ -44,6 +43,10 @@ class ProcessingDataArrayWithText_stackoverflow extends ProcessingDataArrayWithT
 
                     $city = $html->find('span.location')[0]->innertext;
                     $city = $processingWithCity->parseCityFromStringStackoverflow($city);
+
+                    if($tags==null){
+                        $tags = array($idAndTextAndLinksMap['searchTag']);
+                    }
 
                     foreach ($tags as $tag) {
                         $db->insertTags($vacancyId, $tag, $tableNameTags);

@@ -2,15 +2,15 @@
 //header("Content-Type: text/html; charset=utf-8");
 //require_once '../DOU/SearchQuery_dou.class.php';
 //require_once '../stackoverflow/SearchQuery_stackoverflow.class.php';
-define("DOCUMENT_ROOT", $_SERVER['DOCUMENT_ROOT']);
+////define("$_SERVER['DOCUMENT_ROOT']", $_SERVER['$_SERVER['DOCUMENT_ROOT']']);
 require_once '../BD/WorkWithDB.php';
 require_once '../DOU/SearchQuery_dou.php';
 require_once '../stackoverflow/SearchQuery_stackoverflow.php';
 require_once '../rabota/SearchQuery_rabota.php';
-include_once DOCUMENT_ROOT.'/Search/general/ProcessingWithCity.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/general/ProcessingWithCity.php';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['searchData'])) {
-//
+if ($_SERVER['REQUEST_METHOD'] == 'POST' && checkKey($_POST, 'searchData')) {
+
     $json = $_POST['searchData'];
     $searchParams = json_decode($json);
     $whereAndWhatSearchObject = array_shift($searchParams);
@@ -37,16 +37,33 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['searchData'])) {
     }
 }
 
-if ($_SERVER['REQUEST_METHOD'] == 'GET' && isset($_GET['tag'])) {
+if ($_SERVER['REQUEST_METHOD'] == 'GET' && checkKey($_GET, 'tag')) {
+    $tag = $_GET['tag'];
     if ($_GET['site'] == '?dou') {
-        $tag = $_GET['tag'];
         $site = $_GET['site'];
         $processingWithCity = new ProcessingWithCity();
         $cities = $processingWithCity->getCities($tag, $site);
+        $cities = json_encode($cities);
+        echo $cities;
+    }
+    if ($_GET['site'] == '?stackoverflow') {
+        $site = $_GET['site'];
+        $processingWithCity = new ProcessingWithCity();
+        $cities = $processingWithCity->getCities($tag, $site);
+        $cities = json_encode($cities);
+        echo $cities;
+    }
+    if ($_GET['site'] == '?rabota') {
+        $site = $_GET['site'];
+        $processingWithCity = new ProcessingWithCity();
+        $cities = $processingWithCity->getCities($tag, $site);
+        $cities = json_encode($cities);
+        echo $cities;
     }
 
-    $cities = json_encode($cities);
-    echo $cities;
 }
-
+function checkKey($array, $key)
+{
+    return array_key_exists($key, $array) ? $array[$key] : null;
+}
 //[{"searchTag":"PHP","site":"?dou","city":"Николаев","withCityOrNot":true},{"name":"php","search":[{"name":"php"}],"notPresented":[{}]}]

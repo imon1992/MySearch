@@ -3,7 +3,7 @@
 include_once '../BD/WorkWithDb.php';
 include_once '../general/ProcessingWithTableNameAndFields.php';
 
-class ProcessingVacanciesInfo_dou
+class ProcessingVacanciesInfo
 {
     public function getVacanciesInfo($dateInfo, $className, $searchTagCityAndDate)
     {

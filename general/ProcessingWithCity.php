@@ -1,6 +1,8 @@
 <?php
-include_once '../BD/WorkWithDb.php';
-include_once '../general/ProcessingWithTableNameAndFields.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/BD/WorkWithDB.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/general/ProcessingWithTableNameAndFields.php';
+
+//include_once '../general/ProcessingWithTableNameAndFields.php';
 class ProcessingWithCity
 {
     function parseCityFromStringRabota($string)
@@ -20,18 +22,20 @@ class ProcessingWithCity
         return $city;
     }
 
-    protected function changSumSymbols($symbol){
-        $symbol = str_replace(' ','%20',$symbol);
-        $symbol = $tag = str_replace('+','%2B',$symbol);
-        $symbol = $tag = str_replace('#','%23',$symbol);
+    protected function changSumSymbols($symbol)
+    {
+        $symbol = str_replace(' ', '%20', $symbol);
+        $symbol = $tag = str_replace('+', '%2B', $symbol);
+        $symbol = $tag = str_replace('#', '%23', $symbol);
         return $symbol;
     }
 
-    public function getCities($tag,$site){
-$tag = $this->changSumSymbols($tag);
+    public function getCities($tag, $site)
+    {
+        $tag = $this->changSumSymbols($tag);
         $db = WorkWithDb::getInstance();
         $processingWithTableNameAndFields = new ProcessingWithTableNameAndField();
-$partClassName = str_replace('?','_',$site);
+        $partClassName = str_replace('?', '_', $site);
         $tableNameCities = $processingWithTableNameAndFields->generateCitiesTableName($partClassName);
         $tableNameTags = $processingWithTableNameAndFields->generateTagsTableName($partClassName);
 
@@ -41,6 +45,6 @@ $partClassName = str_replace('?','_',$site);
         $tableFieldIdVacancyTags = $processingWithTableNameAndFields->generateTableFieldIdVacancy($tableNameTags);
         $cities = $db->getCities($tableNameCities, $tableNameTags, $tableFieldVacancyIdCities, $tableFieldCityCities,
             $tableFieldIdVacancyTags, $tag);
-    return $cities;
+        return $cities;
     }
 }

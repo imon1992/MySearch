@@ -1,12 +1,8 @@
 <?php
-//header('Content-type: text/html');
-//header("Content-Type: text/html; charset=utf-8");
-//include_once '../lib/simpl/simple_html_dom.php';
-//include_once '../abstractClass/ProcessingWithDate.php';
-define("DOCUMENT_ROOT", $_SERVER['DOCUMENT_ROOT']);
-include_once DOCUMENT_ROOT.'/Search/DOU/CurlInit_Dou.php';
-include_once DOCUMENT_ROOT.'/Search/general/GenerateUrl.php';
-include_once DOCUMENT_ROOT.'/Search/general/ProcessingWithCity.php';
+
+include_once $_SERVER['DOCUMENT_ROOT'].'/Search/DOU/CurlInit_Dou.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/Search/general/GenerateUrl.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/Search/general/ProcessingWithCity.php';
 
 class GenerateDataParams_dou
 {
@@ -45,7 +41,7 @@ class GenerateDataParams_dou
 
         $searchTag = $searchTagCityAndDate->searchTag;
 
-        if ($searchTagCityAndDate->date == null) {
+        if (!property_exists($searchTagCityAndDate,'date')){
             $by = date("Y.m.d");
             $from = $this->getDateLastAddition($city,$searchTag);
             $from = $this->newFormatDateAsRussianMonth($from);

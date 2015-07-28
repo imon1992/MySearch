@@ -1,10 +1,9 @@
 <?php
-define("DOCUMENT_ROOT", $_SERVER['DOCUMENT_ROOT']);
 
-include_once DOCUMENT_ROOT . '/Search/abstractClass/ProcessingDataArrayWithText.php';
-include_once DOCUMENT_ROOT . '/Search/BD/WorkWithDb.php';
-include_once DOCUMENT_ROOT . '/Search/dou/ProcessingWithDate_dou.php';
-include_once DOCUMENT_ROOT . '/Search/general/ProcessingWithTableNameAndFields.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/abstractClass/ProcessingDataArrayWithText.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/BD/WorkWithDb.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/dou/ProcessingWithDate_dou.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/general/ProcessingWithTableNameAndFields.php';
 
 class ProcessingDataArrayWithText_dou extends ProcessingDataArrayWithText
 {
@@ -45,11 +44,16 @@ class ProcessingDataArrayWithText_dou extends ProcessingDataArrayWithText
                     $addDate = $generateDateInfo->newFormatDateAsRussianMonth($date);
 
                     $cities = $html->find('div[class=sh-info] span.place');
-                    $cities = $cities[0]->innertext;
-                    $cities = trim($cities);
-                    $cities = explode(',', $cities);
+                    if($this->checkKey($cities,0)) {
+                        $cities = $cities[0]->innertext;
+                        $cities = trim($cities);
+                        $cities = explode(',', $cities);
+                    }
 
                         foreach ($cities as $city) {
+                            if($city==''){
+                                $city='Город неизвестен';
+                            }
                             $city = trim($city);
                             $db->insertCities($vacancyId, $city, $tableNameCities);
                         }

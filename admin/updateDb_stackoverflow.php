@@ -1,25 +1,22 @@
 <?php
 header("Content-Type: text/html; charset=utf-8");
 include_once '../lib/simpl/simple_html_dom.php';
-include_once '../fillingTheDatabase/stackoverflow/updateDb_stackoverflowAddToDb.php';
+include_once '../fillingTheDatabase/stackoverflow/updateDb_stackoverflow.php';
 
 $html = file_get_html("../html/stackoverflowSearchTable.html");
 
-foreach($html->find('#searchTag option') as $elements){
+foreach ($html->find('#searchTag option') as $elements) {
     $searchTags[] = $elements->value;
-//    echo $elements->value;
-}
-//var_dump(http_response_code());
-$searchQueryStackoverflowAddToDb = new UpdateDb_stackoverflowAddToDb();
-foreach($searchTags as $searchTag){
-//    echo $searchTag;
-    var_dump(http_response_code());
-    $searchQueryStackoverflowAddToDb->updateDb($searchTag);
-//    throw new Exception();
-}
-//$url = 'http://localhost/Search/admin/updateDb_dou.php';
 
-//print_r(get_headers($url));
+}
+
+$searchQueryStackoverflowAddToDb = new UpdateDb_stackoverflow();
+foreach ($searchTags as $searchTag) {
+
+    $searchQueryStackoverflowAddToDb->updateDb($searchTag);
+
+}
+
 echo 'Обновление базы данных stackoverflow успешно завершено';
 
 ?>

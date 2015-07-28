@@ -1,14 +1,13 @@
 <?php
-define("DOCUMENT_ROOT", $_SERVER['DOCUMENT_ROOT']);
 
-include_once DOCUMENT_ROOT.'/Search/abstractClass/MainVacationPageParser.php';
-include_once  DOCUMENT_ROOT.'/Search/stackoverflow/CurlInit_stackoverflow.php';
-include_once DOCUMENT_ROOT.'/Search/lib/simpl/simple_html_dom.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/abstractClass/MainVacationPageParser.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/stackoverflow/CurlInit_stackoverflow.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/lib/simpl/simple_html_dom.php';
 
 
 class MainVacationPageParser_stackoverflow extends MainVacationPageParser
 {
-    private function linksParse($url, $tag)
+    private function linksParse($url, $iterationCount = 25)
     {
         $curlInit = new CurlInit_stackoverflow();
         $curlResult = $curlInit->getCurlInit($url);
@@ -18,29 +17,31 @@ class MainVacationPageParser_stackoverflow extends MainVacationPageParser
 
         $linksToJobDateAddAndTags = array();
 
-        
-        foreach ($html->find('div[class=listResults -jobs list jobs]') as $element) {
 
-            foreach ($element->find('div.listResults div.tags') as $key=>$tagsName) {
-                    $partLinksToJob[] = $tagsName->parentNode()->childNodes(2)->childNodes(0)->href;
-                    $dateAdd[] = $tagsName->parentNode()->childNodes(0)->innertext;
-                
-                foreach ($tagsName->find('a') as $val) {
-                    if ($key != $check)
-                        $tags[$key] = array();
+        $table = $html->find('div[class=listResults -jobs list jobs] div.listResults')[0];
 
-                    $tags[$key][] = $val->innertext;
-                    $check = $key;
-                }
+        for ($i = 0; $i < $iterationCount; $i++) {
+            $partLinksToJob[$i] = '';
+            $dateAdd[$i] = '';
+            $tags[$i] = array();
+            foreach ($table->childNodes($i)->find('h3[class=-title] a') as $link) {
+                $partLinksToJob[$i] = $link->href;
+            }
+            foreach ($table->childNodes($i)->find('p[class=text _small _muted posted top]') as $date) {
+                $dateAdd[$i] = $date->innertext;
+            }
+            foreach ($table->childNodes($i)->find('div.tags a') as $key => $elements) {
+                $tags[$i][$key] = $elements->innertext;
             }
         }
 
+        $linksToJobDateAddAndTags = [];
         if ($partLinksToJob != null && is_array($partLinksToJob)) {
             foreach ($partLinksToJob as $key => $linksPart) {
 
-                $linksToJobDateAddAndTags[] = array('linkToJob' => 'http://careers.stackoverflow.com/' . $linksPart,
+                $linksToJobDateAddAndTags[] = array('linkToJob' => 'http://careers.stackoverflow.com' . $linksPart,
                     'dateAdd' => $dateAdd[$key],
-                    'tags'=>$tags[$key]);
+                    'tags' => $tags[$key]);
             }
         }
         return $linksToJobDateAddAndTags;
@@ -58,6 +59,8 @@ class MainVacationPageParser_stackoverflow extends MainVacationPageParser
 
         $countOfVacancy = $countOfVacancy[0];
         $countOfPages = ceil($countOfVacancy / 25);
+        $lastPageCount = $countOfVacancy % 25;
+        $allLinksToJobDateAddAndTags = array();
 
         for ($i = 1; $i <= $countOfPages; $i++) {
             if ($i == 1) {
@@ -65,11 +68,16 @@ class MainVacationPageParser_stackoverflow extends MainVacationPageParser
             } else {
                 $urlWithPageNumber = $url . "&pg=$i";
             }
-            $linksToJob = $this->linksParse($urlWithPageNumber, $searchTag);
+            if ($i != $countOfPages) {
+                $linksToJob = $this->linksParse($urlWithPageNumber);
+            } else {
+                $linksToJob = $this->linksParse($urlWithPageNumber, $lastPageCount);
+            }
+
             if ($linksToJob != null && is_array($linksToJob))
                 $allLinksToJobDateAddAndTags = array_merge((array)$allLinksToJobDateAddAndTags, $linksToJob);
         }
-
+        array_push($allLinksToJobDateAddAndTags, $searchTag);
         return $allLinksToJobDateAddAndTags;
 
     }

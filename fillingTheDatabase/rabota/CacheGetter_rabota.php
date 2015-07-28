@@ -1,8 +1,7 @@
 <?php
-header("Content-Type: text/html; charset=utf-8");
-define("DOCUMENT_ROOT", $_SERVER['DOCUMENT_ROOT']);
-require_once DOCUMENT_ROOT . '/search/abstractClass/CacheGetter.php';
-include_once DOCUMENT_ROOT . '/Search/BD/WorkWithDB.php';
+
+require_once $_SERVER['DOCUMENT_ROOT'] . '/search/abstractClass/CacheGetter.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/BD/WorkWithDB.php';
 
 class CacheGetter_rabota extends CacheGetter
 {
@@ -29,14 +28,14 @@ class CacheGetter_rabota extends CacheGetter
         }
 
         $dbAnswer = $db->getVacancyIdAndText($arrayOfId, $tableNameVacancyInfo, $idVacancyField, $textVacancyField);
-
+        $dbAnswerMap = array();
         foreach ($dbAnswer as $key => $textAndId) {
             $dbAnswerMap[$textAndId['id_vacancies']] = array('id_vacancies' => $textAndId['id_vacancies'],
                 'text' => $textAndId['text_vacancies']);
         }
-
+        $vacancyIdAndTextMap = array();
         foreach ($vacancyMap as $vacancyId => $vacancyIdAndCompany) {
-            if (null != $dbAnswerMap[$vacancyId]) {
+            if (null != $this->checkKey($dbAnswerMap, $vacancyId)) {
                 continue;
             } else {
                 $vacancyIdAndTextMap[$vacancyId] = array('id_vacancies' => $vacancyId,
@@ -50,5 +49,10 @@ class CacheGetter_rabota extends CacheGetter
         }
 
         return $vacancyIdAndTextMap;
+    }
+
+    function checkKey($array, $key)
+    {
+        return array_key_exists($key, $array) ? $array[$key] : null;
     }
 }
