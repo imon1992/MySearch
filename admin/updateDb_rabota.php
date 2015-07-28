@@ -19,4 +19,4 @@ echo 'Обновление базы дфнных rabota.ua успешно зав
 
 ?>
 
-<a href="http://localhost/Search/admin/adminPanel.php">Назад к панеле администратора</a>
+<a href="adminPanel.php">Назад к панеле администратора</a>

@@ -20,4 +20,4 @@ echo 'Обновление базы данных DOU успешно заверш
 
 ?>
 
-<a href="http://localhost/Search/admin/adminPanel.php">Назад к панеле администратора</a>
+<a href="adminPanel.php">Назад к панеле администратора</a>

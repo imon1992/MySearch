@@ -6,7 +6,7 @@ header("Content-Type: text/html; charset=utf-8");
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-    <link rel="stylesheet" type="text/css" href="http://localhost/Search/style1.css"/>
+    <link rel="stylesheet" type="text/css" href="usersStyle.css"/>
     <script src="getHmlHttpRequest.js" type="text/javascript"></script>
     <script src="MySearch.js" type="text/javascript"></script>
     <script src="calendar.js" type="text/javascript"></script>
@@ -17,9 +17,9 @@ header("Content-Type: text/html; charset=utf-8");
     <h1>VacationSkillSearcher</h1>
 </div>
 <div id="menu">
-    <div><a href="http://localhost/Search/newStyle.php?rabota">Поиск на rabota</a></div>
-    <div><a href="http://localhost/Search/newStyle.php?dou">Поиск на DOU</a></div>
-    <div><a href="http://localhost/Search/newStyle.php?stackoverflow">Поиск на stackoverflow</a></div>
+    <div><a href="index.php?rabota">Поиск на rabota</a></div>
+    <div><a href="index.php?dou">Поиск на DOU</a></div>
+    <div><a href="index.php?stackoverflow">Поиск на stackoverflow</a></div>
 </div>
 <div id="content">
 <!--    <h2>Главная</h2>-->

@@ -51,8 +51,4 @@ class CacheGetter_rabota extends CacheGetter
         return $vacancyIdAndTextMap;
     }
 
-    function checkKey($array, $key)
-    {
-        return array_key_exists($key, $array) ? $array[$key] : null;
-    }
 }

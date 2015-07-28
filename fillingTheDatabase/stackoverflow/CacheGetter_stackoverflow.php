@@ -49,9 +49,4 @@ class CacheGetter_stackoverflow extends CacheGetter
         }
         return $vacancyIdLinksDateAddTextMap;
     }
-
-    function checkKey($array, $key)
-    {
-        return array_key_exists($key, $array) ? $array[$key] : null;
-    }
 }

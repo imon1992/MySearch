@@ -32,7 +32,7 @@ class CacheGetter_dou extends CacheGetter
             $dbAnswerMap[$textAndId['id_vacancies']] = array('id_vacancies' => $textAndId['id_vacancies'],
                 'text' => $textAndId['text_vacancies']);
         }
-
+        $vacancyIdCompanyTagAndTextMap = array();
         foreach ($vacancyMap as $vacancyId => $vacancyCompanyAdnTag) {
             if (null != $this->checkKey($dbAnswerMap,$vacancyId)) {
                 continue;
@@ -44,8 +44,5 @@ class CacheGetter_dou extends CacheGetter
             }
         }
         return $vacancyIdCompanyTagAndTextMap;
-    }
-    function checkKey($array,$key){
-        return array_key_exists($key, $array) ? $array[$key]: null;
     }
 }

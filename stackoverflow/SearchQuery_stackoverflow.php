@@ -12,11 +12,11 @@ class SearchQuery_stackoverflow extends SearchQuery
         $generateDateParams = new ProcessingWithDate_stackoverflow();
         $dateFromToBy = $generateDateParams->generateDateInfo($searchTagCityAndDate);
 
-        if ($dateFromToBy['error']) {
+        if(array_key_exists('error',$dateFromToBy)){
             return $dateFromToBy['errorText'];
         }
-        $processingVacanciesInfo = new ProcessingVacanciesInfo();
-        $vacanciesMap = $processingVacanciesInfo->getVacanciesInfo($dateFromToBy, __CLASS__, $searchTagCityAndDate);
+        $processingVacanciesInfo = new ProcessingVacanciesInfo_dou();
+        $vacanciesMap = $processingVacanciesInfo->getVacanciesInfo($dateFromToBy,__CLASS__,$searchTagCityAndDate);
 
         return parent::findKeyWords($vacanciesMap, $searchObject);
     }

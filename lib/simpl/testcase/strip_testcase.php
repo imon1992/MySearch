@@ -93,7 +93,7 @@ $str = <<<HTML
 <script type="text/javascript" src="test5.js"/>
 
 <style>
-@import url("style1.css");
+@import url("usersStyle.css");
 </style>
 
 <script>

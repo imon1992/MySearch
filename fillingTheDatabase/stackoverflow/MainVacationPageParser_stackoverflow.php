@@ -15,8 +15,9 @@ class MainVacationPageParser_stackoverflow extends MainVacationPageParser
         $html = new simple_html_dom();
         $html->load($curlResult);
 
-        $linksToJobDateAddAndTags = array();
 
+        $partLinksToJob = [];
+        $dateAdd = [];
 
         $table = $html->find('div[class=listResults -jobs list jobs] div.listResults')[0];
 
