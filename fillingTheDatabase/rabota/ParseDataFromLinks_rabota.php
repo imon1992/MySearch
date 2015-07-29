@@ -1,6 +1,6 @@
 <?php
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/abstractClass/ParseDataFromLinks.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/abstractClass/ParseDataFromLinks.php';
 
 class ParseDataFromLinks_rabota extends ParseDataFromLinks
 {

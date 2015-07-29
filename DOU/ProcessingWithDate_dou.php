@@ -1,8 +1,8 @@
 <?php
 
-include_once $_SERVER['DOCUMENT_ROOT'].'/Search/DOU/CurlInit_Dou.php';
-include_once $_SERVER['DOCUMENT_ROOT'].'/Search/general/GenerateUrl.php';
-include_once $_SERVER['DOCUMENT_ROOT'].'/Search/general/ProcessingWithCity.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/DOU/CurlInit_Dou.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/general/GenerateUrl.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/general/ProcessingWithCity.php';
 
 class GenerateDataParams_dou
 {

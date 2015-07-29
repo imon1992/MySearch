@@ -1,10 +1,10 @@
 <?php
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/BD/WorkWithDB.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/abstractClass/ProcessingDataArrayWithText.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/stackoverflow/ProcessingWithDate_stackoverflow.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/general/ProcessingWithCity.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/general/ProcessingWithTableNameAndFields.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/BD/WorkWithDB.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/abstractClass/ProcessingDataArrayWithText.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/stackoverflow/ProcessingWithDate_stackoverflow.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/general/ProcessingWithCity.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/general/ProcessingWithTableNameAndFields.php';
 
 
 class ProcessingDataArrayWithText_stackoverflow extends ProcessingDataArrayWithText

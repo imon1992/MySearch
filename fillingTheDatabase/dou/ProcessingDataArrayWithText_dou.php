@@ -1,9 +1,9 @@
 <?php
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/abstractClass/ProcessingDataArrayWithText.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/BD/WorkWithDb.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/dou/ProcessingWithDate_dou.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/general/ProcessingWithTableNameAndFields.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/abstractClass/ProcessingDataArrayWithText.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/BD/WorkWithDb.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/dou/ProcessingWithDate_dou.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/general/ProcessingWithTableNameAndFields.php';
 
 class ProcessingDataArrayWithText_dou extends ProcessingDataArrayWithText
 {

@@ -24,7 +24,7 @@ window.onload = function () {
             }
         }
     }
-    //console.log(document.getElementById('city'));
+
     if (document.getElementById('searchTag') != null)
         document.getElementById('searchTag').onchange = addCity;
 
@@ -72,12 +72,7 @@ window.onload = function () {
     }
 
     function addCity() {
-        //var body = document.getElementById('search');
-        //var children = body.childNodes;
-        //
-        //while (children.length) {
-        //    body.removeChild(children[0]);
-        //}
+
         var city = document.getElementById('city').lastElementChild;
         var children = city.childNodes;
         while (children.length) {
@@ -137,15 +132,6 @@ window.onload = function () {
         console.log(searchDataArray);
         if (document.getElementById('withDateOrNot').checked) {
             searchDataArray[0].date = date;
-        }
-        if (document.getElementById('withCityOrNot') != null) {
-
-            //if (document.getElementById('withCityOrNot').checked == false) {
-            //    searchDataArray[0].withCityOrNot = false;
-            //    //console.log((searchDataArray));
-            //}else{
-            //    searchDataArray[0].withCityOrNot = true;
-            //}
         }
 
         for (i = 0; i < searchLength; i++) {

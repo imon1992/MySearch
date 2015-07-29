@@ -1,11 +1,11 @@
 <?php
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/BD/WorkWithDB.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/abstractClass/ProcessingDataArrayWithText.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/rabota/CurlInit_rabota.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/lib/simpl/simple_html_dom.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/rabota/ProcessingWithDate_rabota.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/general/ProcessingWithTableNameAndFields.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/BD/WorkWithDB.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/abstractClass/ProcessingDataArrayWithText.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/rabota/CurlInit_rabota.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/lib/simpl/simple_html_dom.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/rabota/ProcessingWithDate_rabota.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/general/ProcessingWithTableNameAndFields.php';
 
 class ProcessingDataArrayWithText_rabota extends ProcessingDataArrayWithText
 {

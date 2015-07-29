@@ -1,7 +1,7 @@
 <?php
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/search/abstractClass/CacheGetter.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/BD/WorkWithDB.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/abstractClass/CacheGetter.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/BD/WorkWithDB.php';
 
 class CacheGetter_rabota extends CacheGetter
 {

@@ -1,5 +1,5 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'].'/Search/abstractClass/CurlInit.php';
+include_once $_SERVER['DOCUMENT_ROOT'].'/abstractClass/CurlInit.php';
 
 class CurlInit_stackoverflow extends CurlInit
 {

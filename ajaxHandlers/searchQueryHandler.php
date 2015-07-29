@@ -7,7 +7,7 @@ require_once '../BD/WorkWithDB.php';
 require_once '../DOU/SearchQuery_dou.php';
 require_once '../stackoverflow/SearchQuery_stackoverflow.php';
 require_once '../rabota/SearchQuery_rabota.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/general/ProcessingWithCity.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/general/ProcessingWithCity.php';
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && checkKey($_POST, 'searchData')) {
 

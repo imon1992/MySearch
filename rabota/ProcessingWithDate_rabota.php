@@ -1,9 +1,9 @@
 <?php
-//define("$_SERVER['DOCUMENT_ROOT']", $_SERVER['$_SERVER['DOCUMENT_ROOT']']);
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/lib/simpl/simple_html_dom.php';
+
+include_once $_SERVER['DOCUMENT_ROOT'] . '/lib/simpl/simple_html_dom.php';
 include_once 'CurlInit_rabota.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/general/GenerateUrl.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/general/ProcessingWithCity.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/general/GenerateUrl.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/general/ProcessingWithCity.php';
 
 class ProcessingWithDate_rabota
 {

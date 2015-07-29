@@ -22,7 +22,7 @@ header("Content-Type: text/html; charset=utf-8");
     <div><a href="index.php?stackoverflow">Поиск на stackoverflow</a></div>
 </div>
 <div id="content">
-<!--    <h2>Главная</h2>-->
+
     <?
     include_once 'html/template/searchTable.php';
 

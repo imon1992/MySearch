@@ -1,8 +1,8 @@
 <?php
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/dou/CurlInit_Dou.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/abstractClass/MainVacationPageParser.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/general/GenerateUrl.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/dou/CurlInit_Dou.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/abstractClass/MainVacationPageParser.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/general/GenerateUrl.php';
 
 class MainVacationPageParser_dou extends MainVacationPageParser
 {

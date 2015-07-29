@@ -1,6 +1,3 @@
-/**
- * Created by imon on 20.05.2015.
- */
 function getXmlHttpRequest() {
     if (window.XMLHttpRequest)
     {

@@ -1,8 +1,8 @@
 <?php
 
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/abstractClass/MainVacationPageParser.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/stackoverflow/CurlInit_stackoverflow.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/lib/simpl/simple_html_dom.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/abstractClass/MainVacationPageParser.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/stackoverflow/CurlInit_stackoverflow.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/lib/simpl/simple_html_dom.php';
 
 
 class MainVacationPageParser_stackoverflow extends MainVacationPageParser

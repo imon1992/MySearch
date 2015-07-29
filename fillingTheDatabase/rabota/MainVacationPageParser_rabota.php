@@ -1,10 +1,9 @@
 <?php
-header("Content-Type: text/html; charset=utf-8");
-//define("$_SERVER['DOCUMENT_ROOT']", $_SERVER['$_SERVER['DOCUMENT_ROOT']']);
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/abstractClass/MainVacationPageParser.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/rabota/CurlInit_rabota.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/lib/simpl/simple_html_dom.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/general/ProcessingWithCity.php';
+
+include_once $_SERVER['DOCUMENT_ROOT'] . '/abstractClass/MainVacationPageParser.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/rabota/CurlInit_rabota.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/lib/simpl/simple_html_dom.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/general/ProcessingWithCity.php';
 
 class MainVacationPageParser_rabota extends MainVacationPageParser
 {

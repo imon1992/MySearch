@@ -1,8 +1,7 @@
 <?php
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/BD/WorkWithDB.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/general/ProcessingWithTableNameAndFields.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/BD/WorkWithDB.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/general/ProcessingWithTableNameAndFields.php';
 
-//include_once '../general/ProcessingWithTableNameAndFields.php';
 class ProcessingWithCity
 {
     function parseCityFromStringRabota($string)

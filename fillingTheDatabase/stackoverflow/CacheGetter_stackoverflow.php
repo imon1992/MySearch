@@ -1,8 +1,7 @@
 <?php
-//define("$_SERVER['DOCUMENT_ROOT']", $_SERVER['$_SERVER['DOCUMENT_ROOT']']);
 
-require_once $_SERVER['DOCUMENT_ROOT'] . '/Search/abstractClass/CacheGetter.php';
-include_once $_SERVER['DOCUMENT_ROOT'] . '/Search/BD/WOrkWithDB.php';
+require_once $_SERVER['DOCUMENT_ROOT'] . '/abstractClass/CacheGetter.php';
+include_once $_SERVER['DOCUMENT_ROOT'] . '/BD/WOrkWithDB.php';
 
 class CacheGetter_stackoverflow extends CacheGetter
 {
