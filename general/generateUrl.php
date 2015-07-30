@@ -42,18 +42,18 @@ class GenerateUrl{
 
     public function generateUrlFirstPageStackoverflow($city,$searchTag){
         if($city == null) {
-            $url = 'http://careers.stackoverflow.com/jobs?searchTerm=' . $searchTag;
+            $url = 'http://careers.stackoverflow.com/jobs?searchTerm=' . $searchTag.'&sort=p';
         }else{
-            $url = 'http://careers.stackoverflow.com/jobs?searchTerm='.$searchTag.'&location='.$city;
+            $url = 'http://careers.stackoverflow.com/jobs?searchTerm='.$searchTag.'&location='.$city . '&sort=p';
         }
         return $url;
     }
 
     public function generateUrlLastPageStackoverflow($city,$searchTag,$lastPageNumber){
         if($city==null) {
-            $url = 'http://careers.stackoverflow.com/jobs?searchTerm=' . $searchTag . "&pg=$lastPageNumber";
+            $url = 'http://careers.stackoverflow.com/jobs?searchTerm=' . $searchTag . "&sort=p&pg=$lastPageNumber";
         }else{
-            $url = 'http://careers.stackoverflow.com/jobs?searchTerm='.$searchTag.'&location='.$city.'&pg='.$lastPageNumber;
+            $url = 'http://careers.stackoverflow.com/jobs?searchTerm='.$searchTag.'&location='.$city.'&sort=p&pg='.$lastPageNumber;
         }
         return $url;
     }

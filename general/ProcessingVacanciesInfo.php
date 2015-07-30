@@ -6,8 +6,10 @@ include_once '../general/ProcessingWithTableNameAndFields.php';
 class ProcessingVacanciesInfo
 {
     public function getVacanciesInfo($dateInfo, $className, $searchTagCityAndDate)
-    {
-        $city = $searchTagCityAndDate->city;
+    {$city = null;
+        if (property_exists($searchTagCityAndDate,'city')) {
+            $city = $searchTagCityAndDate->city;
+        }
         $searchTag = $searchTagCityAndDate->searchTag;
         $from = $dateInfo['from'];
         $by = $dateInfo['by'];
@@ -53,6 +55,7 @@ class ProcessingVacanciesInfo
 
     public function createMap($dbAnswer)
     {
+        $vacancyMap = array();
         foreach ($dbAnswer as $vacancyInfo) {
             $vacancyMap[$vacancyInfo['id_vacancies']] = ['text' => $vacancyInfo['text_vacancies']];
         }
