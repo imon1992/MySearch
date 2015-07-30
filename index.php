@@ -17,6 +17,7 @@ header("Content-Type: text/html; charset=utf-8");
     <h1>VacationSkillSearcher</h1>
 </div>
 <div id="menu">
+    <div><a href="index.php">Главная</a></div>
     <div><a href="index.php?rabota">Поиск на rabota</a></div>
     <div><a href="index.php?dou">Поиск на DOU</a></div>
     <div><a href="index.php?stackoverflow">Поиск на stackoverflow</a></div>
@@ -24,8 +25,11 @@ header("Content-Type: text/html; charset=utf-8");
 <div id="content">
 
     <?
+    if(!empty($_GET)){
     include_once 'html/template/searchTable.php';
-
+    }else{
+        include_once 'html/template/mainPage.php';
+    }
     ?>
 </div>
 <!--<div id="foot">-->

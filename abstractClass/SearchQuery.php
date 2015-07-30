@@ -11,7 +11,7 @@ abstract class SearchQuery
 
     protected function findKeyWords($fullMapArray, $searchObject)
     {
-                $searchResultMap = array();
+        $searchResultMap = array();
         foreach ($fullMapArray as $idAndCompanyAndText) {
             foreach ($searchObject as $searchStringObject) {
                 if ($searchStringObject->search !== null) {
@@ -27,7 +27,6 @@ abstract class SearchQuery
                 }
             }
         }
-        array_shift($searchObject);
         return $this->putZeroIfKeyNotPresent($searchResultMap, $searchObject);
     }
 
@@ -44,7 +43,7 @@ abstract class SearchQuery
 
     protected function insertKeyWord($searchResultMap, $searchString)
     {
-        if (null != $this->checkKey($searchResultMap,$searchString)) {
+        if (null != $this->checkKey($searchResultMap, $searchString)) {
             $searchResultMap[$searchString]++;
         } else {
             $searchResultMap[$searchString] = 1;
@@ -55,7 +54,7 @@ abstract class SearchQuery
     protected function putZeroIfKeyNotPresent($searchResultMap, $searchObject)
     {
         foreach ($searchObject as $key => $searchStringObject) {
-            if (null == $searchResultMap[$searchStringObject->name]) {
+            if (null == $this->checkKey($searchResultMap, $searchStringObject->name)) {
                 $searchResultMap[$searchStringObject->name] = 0;
             }
         }

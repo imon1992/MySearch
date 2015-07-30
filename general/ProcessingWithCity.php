@@ -29,9 +29,26 @@ class ProcessingWithCity
         return $symbol;
     }
 
-    public function getCities($tag, $site)
+    public function getCitiesDou($tag, $site)
     {
         $tag = $this->changSumSymbols($tag);
+        $db = WorkWithDb::getInstance();
+        $processingWithTableNameAndFields = new ProcessingWithTableNameAndField();
+        $partClassName = str_replace('?', '_', $site);
+        $tableNameCities = $processingWithTableNameAndFields->generateCitiesTableName($partClassName);
+        $tableNameTags = $processingWithTableNameAndFields->generateTagsTableName($partClassName);
+
+        $tableFieldVacancyIdCities = $processingWithTableNameAndFields->generateTableFieldIdVacancy($tableNameCities);
+        $tableFieldCityCities = $processingWithTableNameAndFields->generateTableFieldCityCities($tableNameCities);
+
+        $tableFieldIdVacancyTags = $processingWithTableNameAndFields->generateTableFieldIdVacancy($tableNameTags);
+        $cities = $db->getCities($tableNameCities, $tableNameTags, $tableFieldVacancyIdCities, $tableFieldCityCities,
+            $tableFieldIdVacancyTags, $tag);
+        return $cities;
+    }
+
+    public function getCitiesStackoverflowRabota($tag, $site)
+    {
         $db = WorkWithDb::getInstance();
         $processingWithTableNameAndFields = new ProcessingWithTableNameAndField();
         $partClassName = str_replace('?', '_', $site);

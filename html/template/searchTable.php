@@ -5,9 +5,9 @@
     <p><input id="withDateOrNot" type="checkbox"> Поставте галочку для поиска по дате(иначе поиск будет идти по имеющимся на сайте вакансиям)</p>
     <div id="date">
         <p>Кликните на поле ввода даты для вызова календаря:<br>
-            с <input type="text" id="from" value="dd-mm-yy" onfocus="this.select();lcs(this)"
+            с <input type="text" id="from" value="30-07-2015" onfocus="this.select();lcs(this)"
                      onclick="event.cancelBubble=true;lcs(this)">
-            по <input type="text" id="by" value="dd-mm-yy" onfocus="this.select();lcs(this)"
+            по <input type="text" id="by" value="30-06-2015" onfocus="this.select();lcs(this)"
                       onclick="event.cancelBubble=true;this.select();lcs(this)">
         </p>
     </div>
@@ -45,5 +45,6 @@
     </table>
     <button id="sendDataToSearch">Отправить данные на обработку</button>
 </div>
-<div id="searchResult">Search Result
+<div id="searchResult">
+    <div>Search Result</div>
 </div>

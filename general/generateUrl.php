@@ -27,7 +27,7 @@ class GenerateUrl{
             } else if ($city == 'работа за рубежом') {
                 $url = 'http://jobs.dou.ua/vacancies/xhr-load/?relocation&search=' . $searchTag;
             } else {
-                $url = 'http://jobs.dou.ua/vacancies/xhr-load/?city' . $city . '&search=' . $searchTag;
+                $url = 'http://jobs.dou.ua/vacancies/xhr-load/?city=' . $city . '&search=' . $searchTag;
             }
 
         } else {

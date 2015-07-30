@@ -42,21 +42,21 @@ if ($_SERVER['REQUEST_METHOD'] == 'GET' && checkKey($_GET, 'tag')) {
     if ($_GET['site'] == '?dou') {
         $site = $_GET['site'];
         $processingWithCity = new ProcessingWithCity();
-        $cities = $processingWithCity->getCities($tag, $site);
+        $cities = $processingWithCity->getCitiesDou($tag, $site);
         $cities = json_encode($cities);
         echo $cities;
     }
     if ($_GET['site'] == '?stackoverflow') {
         $site = $_GET['site'];
         $processingWithCity = new ProcessingWithCity();
-        $cities = $processingWithCity->getCities($tag, $site);
+        $cities = $processingWithCity->getCitiesStackoverflowRabota($tag, $site);
         $cities = json_encode($cities);
         echo $cities;
     }
     if ($_GET['site'] == '?rabota') {
         $site = $_GET['site'];
         $processingWithCity = new ProcessingWithCity();
-        $cities = $processingWithCity->getCities($tag, $site);
+        $cities = $processingWithCity->getCitiesStackoverflowRabota($tag, $site);
         $cities = json_encode($cities);
         echo $cities;
     }
@@ -66,4 +66,5 @@ function checkKey($array, $key)
 {
     return array_key_exists($key, $array) ? $array[$key] : null;
 }
+//searchData=[{"searchTag":"php","site":"?stackoverflow","city":"Berlin"},{"name":"php","search":[{"name":"php"}],"notPresented":[{}]}]
 //[{"searchTag":"PHP","site":"?dou","city":"Николаев","withCityOrNot":true},{"name":"php","search":[{"name":"php"}],"notPresented":[{}]}]

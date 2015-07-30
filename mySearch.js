@@ -1,6 +1,7 @@
 window.onload = function () {
-
+if(document.getElementById('addFieldToSearch') != null)
     document.getElementById('addFieldToSearch').onclick = addFields;
+    if(document.getElementById('sendDataToSearch') != null)
     document.getElementById('sendDataToSearch').onclick = getAndSendSearchData;
     if (document.getElementById('searchTag') != null)
         addCity();
@@ -42,7 +43,7 @@ window.onload = function () {
         tr.appendChild(td2);
         td2.appendChild(button);
         td1.appendChild(input1);
-        button.innerText = 'Добавление колонки для того чего быть не должно';
+        button.textContent = 'Добавление колонки для того чего быть не должно';
         button.setAttribute('id', 'addNotPresentedField');
         //button.style.width = '150px';
         td1.setAttribute('height', '50');
@@ -87,7 +88,7 @@ window.onload = function () {
             for (var position in data) {
                 console.log(data[position]['city'])
                 var option = document.createElement('option');
-                option.innerText = data[position]['city'];
+                option.textContent = data[position]['city'];
                 option.setAttribute('value', data[position]['city'])
                 //var searchTown = document.getElementById('city')
                 city.appendChild(option);
@@ -111,12 +112,22 @@ window.onload = function () {
 
     function getAndSendSearchData() {
         //console.log(document.getElementById('withCityOrNot').checked);
+        var sendOrNot = checkTheOccupancy();
+        //console.log(sendOrNot);
+        if (sendOrNot == true) {
+            fillAllFieldsMessage();
+            return;
+        }
         var searchArray = getSearch();
         var notPresentedArray = getNotPresented();
         var date = getDate();
+        //console.log('tyt');
+        //if(searchArray.length == 0 || )
+        //console.log('tut')
+        //console.log(notPresentedArray)
         var searchTag = document.getElementById('searchTag').value;
         var city = document.getElementById('city');
-        console.log(city)
+        //console.log(city)
         var site = window.location.search;
         //console.log(city);
         var searchLength = searchArray.length;
@@ -159,7 +170,7 @@ window.onload = function () {
                 var p = document.createElement('p');
                 div.appendChild(p);
                 //document.body.appendChild(div);
-                p.innerText = val + " : " + data[val];
+                p.textContent = val + " : " + data[val];
             }
         }
 
@@ -178,6 +189,113 @@ window.onload = function () {
             showResult,
             true,
             'POST', searchData);
+    }
+
+    function checkTheOccupancy() {
+        var sendOrNot = false;
+        var searchTableTbody = document.getElementById('searchTable').children[0];
+        var trCount = searchTableTbody.children.length;
+        for (var i = 0; i < trCount; i++) {
+            if (i != 0) {
+                if (searchTableTbody.children[i].children[0].children[0].value == '') {
+                    searchTableTbody.children[i].children[0].children[0].style.borderColor = 'red';
+                    searchTableTbody.children[i].children[0].children[0].onmouseout = returnNormalColorSearchFields;
+                    sendOrNot = true;
+                }
+            }
+        }
+
+        var tbody = searchTableTbody.children;
+        for (i = 1; i < trCount; i++) {
+            var tdInTrCount = tbody[i].children.length - 1;
+            for (j = 1; j < tdInTrCount; j++) {
+                if (tbody[i].children[j].children[0].value == '') {
+                    tbody[i].children[j].children[0].style.borderColor = 'red';
+                    tbody[i].children[j].children[0].onmouseout = returnNormalColorNotPresentedFields;
+                    sendOrNot = true;
+                }
+            }
+        }
+
+        //if (document.getElementById('withDateOrNot').checked != false) {
+        //    var from = document.getElementById('from');
+        //    if (from.value == 'dd-mm-yy') {
+        //        from.style.borderColor = 'red';
+        //        //from.onchange = function(){console.log('xz')};
+        //        from.addEventListener('change',returnNormalColorDateFrom);
+        //
+        //        sendOrNot = true;
+        //    }
+        //    var by = document.getElementById('by');
+        //    if (by.value == 'dd-mm-yy') {
+        //        by.style.borderColor = 'red';
+        //        by.onchange = returnNormalColorDateBy;
+        //        sendOrNot = true;
+        //    }
+        //}
+        if(sendOrNot == false){
+document.getElementById('error').parentNode.removeChild(document.getElementById('error'));
+        }
+        return sendOrNot;
+    }
+
+    //function returnNormalColorDateFrom(){
+    //
+    //        var from = document.getElementById('from').value;
+    //        if (from != 'dd-mm-yy') {
+    //            document.getElementById('from').style.borderColor = 'transparent';
+    //        }
+    //
+    //
+    //}
+    //
+    //function returnNormalColorDateBy(){
+    //    var searchTableTbody = document.getElementById('searchTable').children[0];
+    //    var trCount = searchTableTbody.children.length;
+    //    var by = document.getElementById('by').value;
+    //    if (by != 'dd-mm-yy') {
+    //        document.getElementById('by').style.borderColor = 'transparent';
+    //    }
+    //}
+
+
+    function returnNormalColorSearchFields(){
+        //console.log(10);
+        var searchTableTbody = document.getElementById('searchTable').children[0];
+        var trCount = searchTableTbody.children.length;
+        for (var i = 0; i < trCount; i++) {
+            if (i != 0) {
+                if (searchTableTbody.children[i].children[0].children[0].value != '') {
+                    searchTableTbody.children[i].children[0].children[0].style.borderColor = 'transparent';
+                    checkTheOccupancy();
+                }
+            }
+        }
+    }
+    function returnNormalColorNotPresentedFields(){
+        var searchTableTbody = document.getElementById('searchTable').children[0];
+        var trCount = searchTableTbody.children.length;
+        var tbody = searchTableTbody.children;
+
+        for (i = 1; i < trCount; i++) {
+            var tdInTrCount = tbody[i].children.length - 1;
+            for (j = 1; j < tdInTrCount; j++) {
+                if (tbody[i].children[j].children[0].value != '') {
+                    tbody[i].children[j].children[0].style.borderColor = 'transparent';
+                    checkTheOccupancy();
+                }
+            }
+        }
+    }
+
+    function fillAllFieldsMessage() {
+        var searchResult = document.getElementById('searchResult');
+        var errorMassageDiv = document.createElement('div');
+        errorMassageDiv.setAttribute('id','error');
+        searchResult.appendChild(errorMassageDiv);
+        errorMassageDiv.textContent = 'Заполните все выбранные поля';
+        errorMassageDiv.style.color = 'red';
+        errorMassageDiv.style.height = '20px';
     }
 
     function getSearch() {
@@ -209,7 +327,7 @@ window.onload = function () {
     }
 
     function getDate() {
-        //if(document.getElementById(''))
+
         var from = document.getElementById('from').value;
         var by = document.getElementById('by').value;
         var date = {
